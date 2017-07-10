@@ -1,0 +1,29 @@
+galaxy_info:
+  author: Martin Wehner
+  description: Deploys AEM 6.x on Linux
+  company: pro!vision
+  issue_tracker_url: https://wcm-io.atlassian.net
+  license: Apache
+  min_ansible_version: 2.0
+
+  platforms:
+  - name: Ubuntu
+    versions:
+    - trusty
+    - xenial
+  - name: Debian
+    versions:
+    - jessie
+  - name: EL
+    versions:
+    - 7
+
+  galaxy_tags:
+    - aem
+    - cms
+    - web
+    - java
+    - wcmio
+
+dependencies:
+  - { role: williamyeh.oracle-java, java_remove_download: false }

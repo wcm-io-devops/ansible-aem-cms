@@ -1,0 +1,29 @@
+aem_group: adobe
+aem_user: adobe
+aem_home: /opt/adobe/aem
+aem_port: 4502
+aem_instance_name: "{{ aem_home | basename }}"
+aem_version: 6.2.0
+aem_version_short: "{{ aem_version | regex_replace('(\\d+\\.\\d+).*', '\\1') }}"
+aem_quickstart_name: "AEM_{{ aem_version_short }}_Quickstart.jar"
+aem_install_source: file # can be file, package or nexus
+aem_timeout_wait: 1200
+aem_download_path: /tmp
+aem_remove_download: false
+
+# aem_package: aem{{ aem_version_short }}
+# aem_package_home: "/path/of/package/installation"
+
+# Maven coordinates for Nexus Source
+# aem_mvn_coordinates:
+#   - {
+#   group_id: group.id,
+#   artifact_id: artifact.id,
+#   version: "{{ aem_version }}",
+#   repository_url: 'https://repo.url'
+#   }
+
+# Fileglob(s) of files to copy to the crx-quickstart/install directory during setup
+# aem_quickstart_install_fileglob: install/*
+
+aem_limit_nofile: 20000

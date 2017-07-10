@@ -1,0 +1,17 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description={{ aem_instance_name }}
+After=multi-user.target
+Requires=network.target
+
+[Service]
+Type=simple
+ExecStart={{ aem_home }}/crx-quickstart/bin/start
+ExecStop={{ aem_home }}/crx-quickstart/bin/stop
+RemainAfterExit=yes
+User={{ aem_user }}
+LimitNOFILE={{ aem_limit_nofile }}
+
+[Install]
+WantedBy=multi-user.target

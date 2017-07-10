@@ -1,0 +1,25 @@
+- name: Install lxml dependency for Ansible maven_artifact module (yum).
+  yum:
+    name: python-lxml
+    state: present
+  when: ansible_pkg_mgr == 'yum'
+
+- name: Install lxml dependency for Ansible maven_artifact module (apt).
+  apt:
+    name: python-lxml
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  when: ansible_pkg_mgr == 'apt'
+
+- name: Download AEM artifact from Nexus.
+  maven_artifact:
+    group_id: "{{ item.group_id }}"
+    artifact_id: "{{ item.artifact_id }}"
+    repository_url: "{{ item.repository_url }}"
+    dest: "{{ aem_download_path }}/{{ aem_quickstart_name }}"
+    extension: jar
+    username: "{{ nexus_username }}"
+    password: "{{ nexus_password }}"
+    version: "{{ item.version }}"
+  with_items: "{{ aem_mvn_coordinates }}"

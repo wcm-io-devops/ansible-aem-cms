@@ -1,0 +1,67 @@
+- name: Create AEM group.
+  group:
+    name: "{{ aem_group }}"
+    state: present
+
+- name: Create AEM user.
+  user:
+    name: "{{ aem_user }}"
+    group: "{{ aem_group }}"
+    append: yes
+    system: yes
+    state: present
+
+- name: Create AEM folder.
+  file:
+    path: "{{ aem_home }}"
+    state: directory
+
+- name: Create AEM license.
+  copy:
+    src: license.properties
+    dest: "{{ aem_home }}/license.properties"
+    owner: "{{ aem_user }}"
+
+- name: Check whether AEM package was already downloaded.
+  stat:
+    path: "{{ aem_download_path }}/{{ aem_quickstart_name }}"
+  register: aem_package_file
+
+- name: Download AEM package.
+  include: "{{ aem_install_source }}.yml"
+  when: not aem_package_file.stat.exists
+
+- name: Unpack AEM.
+  shell: "java -jar {{ aem_download_path }}/{{ aem_quickstart_name }} -unpack -b {{ aem_home }}"
+  args:
+    creates: "{{ aem_home }}/crx-quickstart/app/cq-quickstart-{{ aem_version }}-standalone-quickstart.jar"
+
+- name: Remove downloaded AEM package.
+  file:
+    path: "{{ aem_download_path }}/{{ aem_quickstart_name }}"
+    state: absent
+  when: aem_remove_download
+
+- name: Set permissions.
+  file:
+    path: "{{ aem_home }}"
+    state: directory
+    owner: "{{ aem_user }}"
+    group: "{{ aem_group }}"
+    recurse: true
+
+- name: Setup AEM systemd unit.
+  include: systemd.yml
+  when: ansible_service_mgr == 'systemd'
+
+- name: Setup AEM init script.
+  include: sysvinit.yml
+  when: ansible_service_mgr == 'sysvinit' or ansible_service_mgr == 'upstart'
+
+- name: Setup crx-quickstart/install.
+  include: quickstart_install.yml
+  when: aem_quickstart_install_fileglob is defined
+
+- name: Setup i386 support for XMPFilesProcessor.
+  include: xmp_i386.yml
+  when: ansible_architecture == 'x86_64'

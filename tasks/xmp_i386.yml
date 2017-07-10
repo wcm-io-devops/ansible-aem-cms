@@ -1,0 +1,37 @@
+# The native XMP tools are i386 by default so we need to enable i386 support
+# and install their dependencies with the proper bitness
+
+- block:
+
+  - name: Enable i386 architecture.
+    lineinfile:
+      dest: /var/lib/dpkg/arch
+      line: "i386"
+      create: True
+    register: i386_arch
+
+  - name: Update apt cache when architecture added.
+    apt:
+      update_cache: True
+    when: i386_arch.changed
+
+  - name: Install i386 XMPFilesProcessor dependencies
+    apt:
+      name: "{{ item }}"
+      state: present
+      update_cache: true
+      cache_valid_time: 3600
+    with_items:
+      - "libc6:i386"
+      - "uuid-runtime:i386"
+
+  when: ansible_os_family == "Debian"
+
+- name: Install i386 XMPFilesProcessor dependencies
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "compat-libstdc++-33.i686"
+    - "libuuid.i686"
+  when: ansible_os_family == "RedHat"

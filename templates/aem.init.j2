@@ -1,0 +1,75 @@
+#!/bin/sh -e
+### BEGIN INIT INFO
+# Provides:          {{ aem_instance_name }}
+# Required-Start:    $local_fs $remote_fs $network $syslog $named
+# Required-Stop:     $local_fs $remote_fs $network $syslog $named
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start AEM process
+# Description:       Init script for AEM instance {{ aem_instance_name }}
+### END INIT INFO
+
+# Source function library.
+#. /etc/rc.d/init.d/functions
+. /lib/lsb/init-functions
+
+SCRIPT_NAME=`basename $0`
+AEM_ROOT={{ aem_home }}
+AEM_USER={{ aem_user }}
+
+
+########
+BIN=${AEM_ROOT}/crx-quickstart/bin
+START=${BIN}/start
+STOP=${BIN}/stop
+STATUS="${BIN}/status"
+
+aem_start() {
+  if $0 status > /dev/null ; then
+    log_success_msg "$SCRIPT_NAME already started"
+  else
+    log_daemon_msg "Starting $DESC" "$SCRIPT_NAME"
+    su - ${AEM_USER} ${START} > /dev/null
+    touch /var/lock/$SCRIPT_NAME
+    log_end_msg 0
+  fi
+}
+
+aem_stop() {
+  log_daemon_msg "Stopping $DESC" "$SCRIPT_NAME"
+  if $0 status > /dev/null ; then
+    su - ${AEM_USER} -c "bash ${STOP}" > /dev/null
+  fi
+  rm -f /var/lock/$SCRIPT_NAME
+  log_end_msg 0
+}
+
+aem_shutdown_wait() {
+  log_daemon_msg "Waiting for shutdown to complete"
+  while $0 status > /dev/null 2>&1; do
+    log_progress_msg "."
+    sleep 5
+  done
+  log_end_msg 0
+}
+
+case "$1" in
+start)
+aem_start
+;;
+stop)
+aem_stop
+;;
+status)
+su - ${AEM_USER} ${STATUS}
+;;
+restart)
+aem_stop
+aem_shutdown_wait
+aem_start
+;;
+*)
+echo "Usage: $SCRIPT_NAME {start|stop|status|restart}"
+exit 1
+;;
+esac
