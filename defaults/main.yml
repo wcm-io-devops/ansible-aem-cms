@@ -7,7 +7,6 @@ aem_version: 6.2.0
 aem_version_short: "{{ aem_version | regex_replace('(\\d+\\.\\d+).*', '\\1') }}"
 aem_quickstart_name: "AEM_{{ aem_version_short }}_Quickstart.jar"
 aem_install_source: file # can be file, package or nexus
-aem_timeout_wait: 1200
 aem_download_path: /tmp
 aem_remove_download: false
 
