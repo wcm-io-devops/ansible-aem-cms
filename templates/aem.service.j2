@@ -6,10 +6,10 @@ After=multi-user.target
 Requires=network.target
 
 [Service]
-Type=simple
+Type=forking
 ExecStart={{ aem_home }}/crx-quickstart/bin/start
 ExecStop={{ aem_home }}/crx-quickstart/bin/stop
-RemainAfterExit=yes
+PIDFile={{ aem_home }}/crx-quickstart/conf/cq.pid
 User={{ aem_user }}
 LimitNOFILE={{ aem_limit_nofile }}
 
