@@ -1,4 +1,4 @@
-# Role Name
+# aem-cms
 
 This role installs and Adobe Experience Manager (AEM) 6.x on Debian/Ubuntu or RHEL/CentOS servers.
 > This role was developed as part of the wcm.io set of roles to integrate Ansible with [CONGA](http://devops.wcm.io/conga/) but can be used independently of it.
