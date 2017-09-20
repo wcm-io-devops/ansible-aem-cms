@@ -3,13 +3,11 @@
 This role installs and Adobe Experience Manager (AEM) 6.x on Debian/Ubuntu or RHEL/CentOS servers.
 > This role was developed as part of the wcm.io set of roles to integrate Ansible with [CONGA](http://devops.wcm.io/conga/) but can be used independently of it.
 
-Requirements
-------------
+## Requirements
 
 This role requires Ansible 2.2 or higher and works with AEM 6.1 or higher. Also required are an AEM quickstart JAR file and a valid AEM license file. The `license.properties` files needs be made accessible to the role, normally by copying it into the `files` folder in the playbook directory. The `AEM_*_Quickstart.jar` can be supplied in the same way or retrieved from a Nexus or RPM/APT repository (see below).
 
-Role Variables
---------------
+## Role Variables
 
 Available variables are listed below, along with default values (see `defaults/main.yml`):
 
@@ -63,13 +61,11 @@ Fileglob(s) of files to copy to the `crx-quickstart/install` directory during se
 
 Sets the `nofile` limit for the AEM user.
 
-Dependencies
-------------
+## Dependencies
 
 This role depends on the [williamyeh.oracle-java](https://galaxy.ansible.com/williamyeh/oracle-java/) role for installing Java.
 
-Example Playbook
-----------------
+## Example Playbook
 
 Installs AEM in `/opt/adobe/aem-author`: 
 
@@ -77,7 +73,6 @@ Installs AEM in `/opt/adobe/aem-author`:
       roles:
          - { role: aem-cms,  aem_home: /opt/adobe/aem-author }
 
-License
--------
+## License
 
 Apache 2.0
