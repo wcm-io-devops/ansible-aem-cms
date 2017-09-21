@@ -1,7 +1,6 @@
 aem_group: adobe
 aem_user: adobe
 aem_home: /opt/adobe/aem
-aem_port: 4502
 aem_instance_name: "{{ aem_home | basename }}"
 aem_version: 6.2.0
 aem_version_short: "{{ aem_version | regex_replace('(\\d+\\.\\d+).*', '\\1') }}"

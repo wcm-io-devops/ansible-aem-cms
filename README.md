@@ -17,9 +17,8 @@ Available variables are listed below, along with default values (see `defaults/m
 The user and group AEM should be installed and executed as. User and Group will be created by the role if necessary.
 
 	aem_home: /opt/adobe/aem
-	aem_port: 4502
 
-The path AEM should be installed in and the port AEM listens to.
+The path AEM should be installed in.
 
 	aem_instance_name: "{{ aem_home | basename }}"
 
