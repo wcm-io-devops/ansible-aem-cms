@@ -56,7 +56,7 @@
 
 - name: Setup AEM init script.
   include: sysvinit.yml
-  when: ansible_service_mgr == 'sysvinit' or ansible_service_mgr == 'upstart'
+  when: ansible_service_mgr == 'sysvinit' or ansible_service_mgr == 'upstart' or ansible_service_mgr == 'service'
 
 - name: Setup crx-quickstart/install.
   include: quickstart_install.yml
