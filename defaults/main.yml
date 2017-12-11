@@ -20,6 +20,12 @@ aem_remove_download: false
 # aem_url_username:
 # aem_url_password:
 
+# Bucket, object and credentials for S3 source
+# aem_s3_bucket: aem-installation-artifacts
+# aem_s3_object: "{{ aem_quickstart_name }}"
+# aem_s3_access_key:
+# aem_s3_secret_key:
+
 # Maven coordinates for Nexus source
 # aem_mvn_coordinates:
 #   - {

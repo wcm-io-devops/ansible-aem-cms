@@ -1,0 +1,18 @@
+---
+- name: Install pip.
+  easy_install:
+    name: pip
+    state: latest
+
+- name: Install boto3 dependency.
+  pip:
+    name: boto3
+
+- name: Download AEM artifact from S3.
+  s3:
+    bucket: "{{ aem_s3_bucket }}"
+    object: "{{ aem_s3_object }}"
+    dest: "{{ aem_download_path }}/{{ aem_quickstart_name }}"
+    mode: get
+    aws_access_key: "{{ aem_s3_access_key | default(omit) }}"
+    aws_secret_key: "{{ aem_s3_secret_key | default(omit) }}"

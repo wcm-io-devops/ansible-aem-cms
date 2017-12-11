@@ -36,7 +36,7 @@ The version of AEM to install, filename of the Quickstart.jar and optional SHA1 
 	aem_download_path: /tmp
 	aem_remove_download: false
 
-The installation source, i.e. where the installation Quickstart.jar should be retrieved from. This can either be `file` for a local file, `package` for a distribution package , `url` for a generic URL or `Nexus` for a Maven repository. If using a local file it needs to be copied someplace the Ansible `copy` module can find it. `aem_download_path` controls where the installation file will be downloaded to on the target host, and `aem_remove_download` whether the file will be deleted after installation.
+The installation source, i.e. where the installation Quickstart.jar should be retrieved from. This can either be `file` for a local file, `package` for a distribution package , `url` for a generic URL, `s3` for an object from a S3 bucket or `Nexus` for a Maven repository. If using a local file it needs to be copied someplace the Ansible `copy` module can find it. `aem_download_path` controls where the installation file will be downloaded to on the target host, and `aem_remove_download` whether the file will be deleted after installation.
 	
 	aem_package: aem{{ aem_version_short }}
 	aem_package_home: "/path/of/package/installation"
@@ -58,6 +58,13 @@ Used to configure the Maven coordinates of the JAR artifact when using Nexus as 
 	aem_url_password: <password>
 
 URL and optional authentication parameters to retrieve the AEM Quickstart.jar from when using the URL installation source.
+
+	aem_s3_bucket: <AWS bucket name>
+	aem_s3_object: "{{ aem_quickstart_name }}"
+	aem_s3_access_key: <AWS access key>
+	aem_s3_secret_key: <AWS secret key>
+
+Bucket and object name of the AEM Quickstart.jar and optional AWS credentials for retrieving the installation file from the S3 source. 
 
 	aem_quickstart_install_fileglob: []
 	
