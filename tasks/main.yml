@@ -28,8 +28,9 @@
   register: aem_package_file
 
 - name: Download AEM package.
-  include: "{{ aem_install_source }}.yml"
-  when: not aem_package_file.stat.exists
+  include: "download/{{ aem_install_source }}.yml"
+  when: not aem_package_file.stat.exists or
+        (aem_quickstart_checksum is defined and aem_quickstart_checksum != aem_package_file.stat.checksum)
 
 - name: Unpack AEM.
   shell: "java -jar {{ aem_download_path }}/{{ aem_quickstart_name }} -unpack -b {{ aem_home }}"

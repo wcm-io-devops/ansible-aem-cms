@@ -5,14 +5,22 @@ aem_instance_name: "{{ aem_home | basename }}"
 aem_version: 6.2.0
 aem_version_short: "{{ aem_version | regex_replace('(\\d+\\.\\d+).*', '\\1') }}"
 aem_quickstart_name: "AEM_{{ aem_version_short }}_Quickstart.jar"
-aem_install_source: file # can be file, package or nexus
+# SHA1 hash of the quickstart.jar
+# aem_quickstart_checksum: 663360C9D50A09A0BE685053DEA10D03515C2009
+aem_install_source: file # can be file, package, url or nexus
 aem_download_path: /tmp
 aem_remove_download: false
 
+# Package name and installation location for package source
 # aem_package: aem{{ aem_version_short }}
 # aem_package_home: "/path/of/package/installation"
 
-# Maven coordinates for Nexus Source
+# URL, username and password for URL source
+# aem_url: "http://host:port/path/{{ aem_quickstart_name }}"
+# aem_url_username:
+# aem_url_password:
+
+# Maven coordinates for Nexus source
 # aem_mvn_coordinates:
 #   - {
 #   group_id: group.id,

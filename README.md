@@ -28,14 +28,15 @@ The role will install a service script or systemd unit for managing AEM, dependi
 	aem_version: 6.2.0
 	aem_version_short: "{{ aem_version | regex_replace('(\\d+\\.\\d+).*', '\\1') }}"
 	aem_quickstart_name: "AEM_{{ aem_version_short }}_Quickstart.jar"
+	aem_quickstart_checksum:
 
-The version of AEM to install.
+The version of AEM to install, filename of the Quickstart.jar and optional SHA1 checksum of the JAR for verification.
 
 	aem_install_source: file
 	aem_download_path: /tmp
 	aem_remove_download: false
 
-The installation source, i.e. where the installation Quickstart.jar should be retrieved from. This can either be `file` for a local file, `package` for a distribution package or `Nexus` for a Maven repository. If using a local file it needs to be copied someplace the Ansible `copy` module can find it. `aem_download_path` controls where the installation file will be downloaded to on the target host, and `aem_remove_download` whether the file will be deleted after installation.
+The installation source, i.e. where the installation Quickstart.jar should be retrieved from. This can either be `file` for a local file, `package` for a distribution package , `url` for a generic URL or `Nexus` for a Maven repository. If using a local file it needs to be copied someplace the Ansible `copy` module can find it. `aem_download_path` controls where the installation file will be downloaded to on the target host, and `aem_remove_download` whether the file will be deleted after installation.
 	
 	aem_package: aem{{ aem_version_short }}
 	aem_package_home: "/path/of/package/installation"
@@ -44,13 +45,19 @@ If using a distribution package, `aem_package` must be set to the name of the pa
 
 	aem_mvn_coordinates:
 	  - {
-	  group_id: group.id,
-	  artifact_id: artifact.id,
-	  version: "{{ aem_version }}",
-	  repository_url: 'https://repo.url'
-	  }
+		  group_id: group.id,
+		  artifact_id: artifact.id,
+		  version: "{{ aem_version }}",
+		  repository_url: 'https://repo.url'
+		}
 
 Used to configure the Maven coordinates of the JAR artifact when using Nexus as installation source.
+
+	aem_url: "http://host:port/path/{{ aem_quickstart_name }}"
+	aem_url_username: <username>
+	aem_url_password: <password>
+
+URL and optional authentication parameters to retrieve the AEM Quickstart.jar from when using the URL installation source.
 
 	aem_quickstart_install_fileglob: []
 	
