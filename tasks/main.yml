@@ -25,12 +25,13 @@
 - name: Check whether AEM package was already downloaded.
   stat:
     path: "{{ aem_download_path }}/{{ aem_quickstart_name }}"
-  register: aem_package_file
+  register: aem_quickstart_file
 
 - name: Download AEM package.
   include: "download/{{ aem_install_source }}.yml"
-  when: not aem_package_file.stat.exists or
-        (aem_quickstart_checksum is defined and aem_quickstart_checksum != aem_package_file.stat.checksum)
+  when: not aem_quickstart_file.stat.exists or
+        (aem_quickstart_sha1 is defined and
+        (aem_quickstart_sha1 | lower) != aem_quickstart_file.stat.checksum)
 
 - name: Unpack AEM.
   shell: "java -jar {{ aem_download_path }}/{{ aem_quickstart_name }} -unpack -b {{ aem_home }}"

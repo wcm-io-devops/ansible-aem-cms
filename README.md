@@ -28,7 +28,7 @@ The role will install a service script or systemd unit for managing AEM, dependi
 	aem_version: 6.2.0
 	aem_version_short: "{{ aem_version | regex_replace('(\\d+\\.\\d+).*', '\\1') }}"
 	aem_quickstart_name: "AEM_{{ aem_version_short }}_Quickstart.jar"
-	aem_quickstart_checksum:
+	aem_quickstart_sha1:
 
 The version of AEM to install, filename of the Quickstart.jar and optional SHA1 checksum of the JAR for verification.
 

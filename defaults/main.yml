@@ -6,7 +6,7 @@ aem_version: 6.2.0
 aem_version_short: "{{ aem_version | regex_replace('(\\d+\\.\\d+).*', '\\1') }}"
 aem_quickstart_name: "AEM_{{ aem_version_short }}_Quickstart.jar"
 # SHA1 hash of the quickstart.jar
-# aem_quickstart_checksum: 663360C9D50A09A0BE685053DEA10D03515C2009
+# aem_quickstart_sha1: 663360C9D50A09A0BE685053DEA10D03515C2009
 aem_install_source: file # can be file, package, url or nexus
 aem_download_path: /tmp
 aem_remove_download: false
