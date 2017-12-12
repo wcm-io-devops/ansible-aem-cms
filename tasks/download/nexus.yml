@@ -12,7 +12,7 @@
     cache_valid_time: 3600
   when: ansible_pkg_mgr == 'apt'
 
-- name: Download AEM artifact from Nexus.
+- name: Download AEM quickstart artifact from Nexus.
   maven_artifact:
     group_id: "{{ item.group_id }}"
     artifact_id: "{{ item.artifact_id }}"
