@@ -11,7 +11,7 @@
     repository_url: "{{ item.repository_url }}"
     dest: "{{ aem_download_path }}/{{ aem_quickstart_name }}"
     extension: jar
-    username: "{{ nexus_username }}"
-    password: "{{ nexus_password }}"
+    username: "{{ nexus_username | default(omit) }}"
+    password: "{{ nexus_password | default(omit) }}"
     version: "{{ item.version | default(aem_version_short) }}"
   with_items: "{{ aem_mvn_coordinates }}"
