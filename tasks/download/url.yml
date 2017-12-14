@@ -1,13 +1,13 @@
 ---
 - name: Build AEM quickstart SHA1 checksum string.
   set_fact:
-    _aem_quickstart_checksum: "sha1:{{ aem_quickstart_sha1 }}"
-  when: aem_quickstart_sha1 is defined
+    _aem_cms_quickstart_checksum: "sha1:{{ aem_cms_quickstart_sha1 }}"
+  when: aem_cms_quickstart_sha1 is defined
 
 - name: Download AEM quickstart from URL.
   get_url:
-    url: "{{ aem_url }}"
-    dest: "{{ aem_download_path }}/{{ aem_quickstart_name }}"
-    url_username: "{{ aem_url_username | default(omit) }}"
-    url_password: "{{ aem_url_password | default(omit) }}"
-    checksum: "{{ _aem_quickstart_checksum | default(omit) }}"
+    url: "{{ aem_cms_url }}"
+    dest: "{{ aem_cms_download_path }}/{{ aem_cms_quickstart_name }}"
+    url_username: "{{ aem_cms_url_username | default(omit) }}"
+    url_password: "{{ aem_cms_url_password | default(omit) }}"
+    checksum: "{{ _aem_cms_quickstart_checksum | default(omit) }}"

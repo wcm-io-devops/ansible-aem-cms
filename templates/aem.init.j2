@@ -1,12 +1,12 @@
 #!/bin/sh -e
 ### BEGIN INIT INFO
-# Provides:          {{ aem_instance_name }}
+# Provides:          {{ aem_cms_service_name }}
 # Required-Start:    $local_fs $remote_fs $network $syslog $named
 # Required-Stop:     $local_fs $remote_fs $network $syslog $named
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # Short-Description: Start AEM process
-# Description:       Init script for AEM instance {{ aem_instance_name }}
+# Description:       Init script for AEM instance {{ aem_cms_service_name }}
 ### END INIT INFO
 
 # Source function library.
@@ -14,8 +14,8 @@
 . /lib/lsb/init-functions
 
 SCRIPT_NAME=`basename $0`
-AEM_ROOT={{ aem_home }}
-AEM_USER={{ aem_user }}
+AEM_ROOT={{ aem_cms_home }}
+AEM_USER={{ aem_cms_user }}
 
 
 ########

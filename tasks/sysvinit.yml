@@ -1,12 +1,12 @@
 - name: Create AEM initd service file.
   template:
     src: aem.init.j2
-    dest: "/etc/init.d/{{ aem_instance_name }}"
+    dest: "/etc/init.d/{{ aem_cms_service_name }}"
     mode: "0755"
 
 - name: Enable AEM service.
   service:
-    name: "{{ aem_instance_name }}"
+    name: "{{ aem_cms_service_name }}"
     enabled: yes
 
 - block:
@@ -14,7 +14,7 @@
   - name: Set nofile ulimit for AEM user.
     template:
       src: limits.conf.j2
-      dest: "/etc/security/limits.d/{{ aem_user }}.conf"
+      dest: "/etc/security/limits.d/{{ aem_cms_user }}.conf"
 
   - name: Enable pam_limits module for su.
     lineinfile:
@@ -22,4 +22,4 @@
       line: "session required pam_limits.so"
       regexp: "#?\\s*session\\s+required\\s+pam_limits.so"
 
-  when: aem_limit_nofile
+  when: aem_cms_limit_nofile

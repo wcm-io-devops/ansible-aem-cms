@@ -1,11 +1,11 @@
 - name: Create AEM systemd unit file.
   template:
     src: aem.service.j2
-    dest: "/etc/systemd/system/{{ aem_instance_name }}.service"
+    dest: "/etc/systemd/system/{{ aem_cms_service_name }}.service"
     mode: "0755"
 
 - name: Enable AEM service.
   systemd:
-    name: "{{ aem_instance_name }}"
+    name: "{{ aem_cms_service_name }}"
     enabled: yes
     daemon_reload: yes
