@@ -45,12 +45,11 @@
   when: aem_cms_remove_download
 
 - name: Set permissions.
-  file:
-    path: "{{ aem_cms_home }}"
-    state: directory
-    owner: "{{ aem_cms_user }}"
-    group: "{{ aem_cms_group }}"
-    recurse: true
+  command: "chown -c -R {{aem_cms_user}}:{{ aem_cms_group }} '{{ aem_cms_home }}'"
+  args:
+    warn: false
+  register: permissions_result
+  changed_when: "permissions_result.stdout != \"\""
 
 - name: Setup AEM systemd unit.
   include: systemd.yml
