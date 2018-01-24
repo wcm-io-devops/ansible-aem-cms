@@ -15,12 +15,15 @@
   file:
     path: "{{ aem_cms_home }}"
     state: directory
+    owner: "{{ aem_cms_user }}"
+    group: "{{ aem_cms_group }}"
 
 - name: Create AEM license.
   copy:
     src: license.properties
     dest: "{{ aem_cms_home }}/license.properties"
     owner: "{{ aem_cms_user }}"
+    group: "{{ aem_cms_group }}"
 
 - name: Check whether AEM quickstart was already downloaded.
   stat:
@@ -34,23 +37,16 @@
         (aem_cms_quickstart_sha1 | lower) != aem_cms_quickstart_file.stat.checksum)
 
 - name: Unpack AEM.
-  shell: "java -jar {{ aem_cms_download_path }}/{{ aem_cms_quickstart_name }} -unpack -b {{ aem_cms_home }}"
+  shell: "su {{ aem_cms_user }} -l -c 'java -jar {{ aem_cms_download_path }}/{{ aem_cms_quickstart_name }} -unpack -b {{ aem_cms_home }}'"
   args:
     creates: "{{ aem_cms_home }}/crx-quickstart/app/cq-quickstart-{{ aem_cms_version }}-standalone-quickstart.jar"
+    warn: false
 
 - name: Remove downloaded AEM quickstart.
   file:
     path: "{{ aem_cms_download_path }}/{{ aem_cms_quickstart_name }}"
     state: absent
   when: aem_cms_remove_download
-
-- name: Set permissions.
-  file:
-    path: "{{ aem_cms_home }}"
-    state: directory
-    owner: "{{ aem_cms_user }}"
-    group: "{{ aem_cms_group }}"
-    recurse: true
 
 - name: Setup AEM systemd unit.
   include: systemd.yml
