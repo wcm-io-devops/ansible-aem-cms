@@ -12,6 +12,7 @@ ExecStop={{ aem_cms_home }}/crx-quickstart/bin/stop
 PIDFile={{ aem_cms_home }}/crx-quickstart/conf/cq.pid
 User={{ aem_cms_user }}
 LimitNOFILE={{ aem_cms_limit_nofile }}
+KillMode=none
 
 [Install]
 WantedBy=multi-user.target
