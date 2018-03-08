@@ -21,7 +21,7 @@ AEM_USER={{ aem_cms_user }}
 ########
 BIN=${AEM_ROOT}/crx-quickstart/bin
 START=${BIN}/start
-STOP=${BIN}/stop
+STOP="${BIN}/stop --sync"
 STATUS="${BIN}/status"
 
 aem_start() {
@@ -30,27 +30,18 @@ aem_start() {
   else
     log_daemon_msg "Starting $DESC" "$SCRIPT_NAME"
     su - ${AEM_USER} ${START} > /dev/null
-    touch /var/lock/$SCRIPT_NAME
     log_end_msg 0
   fi
 }
 
 aem_stop() {
-  log_daemon_msg "Stopping $DESC" "$SCRIPT_NAME"
   if $0 status > /dev/null ; then
+    log_daemon_msg "Stopping $DESC" "$SCRIPT_NAME"
     su - ${AEM_USER} -c "bash ${STOP}" > /dev/null
+    log_end_msg 0
+  else
+    log_success_msg "$SCRIPT_NAME not started"
   fi
-  rm -f /var/lock/$SCRIPT_NAME
-  log_end_msg 0
-}
-
-aem_shutdown_wait() {
-  log_daemon_msg "Waiting for shutdown to complete"
-  while $0 status > /dev/null 2>&1; do
-    log_progress_msg "."
-    sleep 5
-  done
-  log_end_msg 0
 }
 
 case "$1" in
@@ -65,7 +56,6 @@ su - ${AEM_USER} ${STATUS}
 ;;
 restart)
 aem_stop
-aem_shutdown_wait
 aem_start
 ;;
 *)
