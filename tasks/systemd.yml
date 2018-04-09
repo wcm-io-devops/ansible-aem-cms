@@ -2,7 +2,7 @@
   template:
     src: aem.service.j2
     dest: "/etc/systemd/system/{{ aem_cms_service_name }}.service"
-    mode: "0755"
+    mode: "0644"
 
 - name: Enable AEM service.
   systemd:
