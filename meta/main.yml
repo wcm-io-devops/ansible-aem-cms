@@ -26,4 +26,9 @@ galaxy_info:
     - wcmio
 
 dependencies:
-  - { role: williamyeh.oracle-java, java_remove_download: false, tags: "dev.java" }
+  - {
+      role: williamyeh.oracle-java,
+      java_remove_download: false,
+      tags: "dev.java",
+      when: aem_cms_dependency_java == true
+    }
