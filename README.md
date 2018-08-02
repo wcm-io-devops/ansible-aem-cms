@@ -1,4 +1,4 @@
-# aem-cms
+# wcm-io-devops.aem-cms
 
 This role installs Adobe Experience Manager (AEM) 6.x on Debian/Ubuntu or RHEL/CentOS servers.
 > This role was developed as part of the wcm.io set of roles to integrate Ansible with [CONGA](http://devops.wcm.io/conga/) but can be used independently of it.
@@ -78,7 +78,9 @@ Sets the `nofile` limit for the AEM user.
 
 ## Dependencies
 
-This role depends on the [williamyeh.oracle-java](https://galaxy.ansible.com/williamyeh/oracle-java/) role for installing Java.
+This role depends on the
+[srsp.oracle-java](https://galaxy.ansible.com/srsp/oracle-java/) role for
+installing Java.
 
 ## Example Playbook
 
@@ -86,7 +88,7 @@ Installs AEM in `/opt/adobe/aem-author`:
 
     - hosts: aem-author
       roles:
-         - { role: aem-cms,  aem_cms_home: /opt/adobe/aem-author }
+         - { role: wcm-io-devops.aem-cms,  aem_cms_home: /opt/adobe/aem-author }
 
 ## License
 
