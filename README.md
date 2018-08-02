@@ -23,7 +23,7 @@ The path AEM should be installed in.
 	aem_cms_service_name: "{{ aem_cms_home | basename }}"
 
 The role will install a service script or systemd unit for managing AEM, depending on the init system of the target host. The name of this service is controlled by this variable. 
-> Note that this role doesn't start AEM after installation, although it enables the service. This is to be able to tweak the installation before the first startup or orchestrate the startup within a cluster outside of the role. The [aem-service](https://github.com/wcm-io-devops/ansible-aem-service) role can be used to control startup and shutdown of AEM.
+> Note that this role doesn't start AEM after installation, although it enables the service. This is to be able to tweak the installation before the first startup or orchestrate the startup within a cluster outside of the role. The [wcm-io-devops.aem-service](https://github.com/wcm-io-devops/ansible-aem-service) role can be used to control startup and shutdown of AEM.
 
 	aem_cms_version: 6.2.0
 	aem_cms_version_short: "{{ aem_cms_version | regex_replace('(\\d+\\.\\d+).*', '\\1') }}"
