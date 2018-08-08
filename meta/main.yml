@@ -1,4 +1,5 @@
 galaxy_info:
+  role_name: aem_cms
   author: Martin Wehner
   description: Deploys AEM 6.x on Linux
   company: pro!vision

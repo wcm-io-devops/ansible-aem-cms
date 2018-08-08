@@ -41,6 +41,8 @@
   args:
     creates: "{{ aem_cms_home }}/crx-quickstart/app/cq-quickstart-{{ aem_cms_version }}-standalone-quickstart.jar"
     warn: false
+  tags:
+    - skip_ansible_lint
 
 - name: Remove downloaded AEM quickstart.
   file:

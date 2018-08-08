@@ -14,4 +14,3 @@
     owner: "{{ aem_cms_user }}"
     group: "{{ aem_cms_group }}"
   with_fileglob: "{{ aem_cms_quickstart_install_fileglob }}"
-
