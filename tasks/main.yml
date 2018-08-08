@@ -40,7 +40,9 @@
   shell: "su {{ aem_cms_user }} -l -c 'java -jar {{ aem_cms_download_path }}/{{ aem_cms_quickstart_name }} -unpack -b {{ aem_cms_home }}'"
   args:
     creates: "{{ aem_cms_home }}/crx-quickstart/app/cq-quickstart-{{ aem_cms_version }}-standalone-quickstart.jar"
-    warn: False
+    warn: false
+  tags:
+    - skip_ansible_lint
 
 - name: Remove downloaded AEM quickstart.
   file:
