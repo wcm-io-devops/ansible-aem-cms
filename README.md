@@ -76,6 +76,11 @@ Fileglob(s) of files to copy to the `crx-quickstart/install` directory during se
 
 Sets the `nofile` limit for the AEM user.
 
+    aem_cms_dependency_java: true
+
+Controls if Java is installed by using [srsp.oracle-java](https://galaxy.ansible.com/srsp/oracle-java/) role for installing Java.
+
+
 ## Dependencies
 
 This role depends on the

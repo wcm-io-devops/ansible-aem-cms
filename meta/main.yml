@@ -28,4 +28,9 @@ galaxy_info:
     - wcmio
 
 dependencies:
-  - { role: srsp.oracle-java, java_remove_download: false, tags: "dev.java" }
+- {
+    role: srsp.oracle-java,
+    java_remove_download: false,
+    tags: "dev.java",
+    when: aem_cms_dependency_java == true
+  }
