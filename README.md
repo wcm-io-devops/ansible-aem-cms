@@ -78,7 +78,7 @@ Sets the `nofile` limit for the AEM user.
 
     aem_cms_dependency_java: true
 
-Controls if Java is installed by using [williamyeh.oracle-java](https://galaxy.ansible.com/williamyeh/oracle-java/) role for installing Java.
+Controls if Java is installed by using [srsp.oracle-java](https://galaxy.ansible.com/srsp/oracle-java/) role for installing Java.
 
 
 ## Dependencies
