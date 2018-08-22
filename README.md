@@ -5,7 +5,7 @@ This role installs Adobe Experience Manager (AEM) 6.x on Debian/Ubuntu or RHEL/C
 
 ## Requirements
 
-This role requires Ansible 2.2 or higher and works with AEM 6.1 or higher. Also required are an AEM quickstart JAR file and a valid AEM license file. The `license.properties` files needs be made accessible to the role, normally by copying it into the `files` folder in the playbook directory. The `AEM_*_Quickstart.jar` can be supplied in the same way or retrieved from a Nexus/RPM/APT repository, an HTTP URL or a S3 bucket (see below).
+This role requires Ansible 2.2 or higher and works with AEM 6.1 or higher. Also required are an AEM quickstart JAR file and a valid AEM license file. The `license.properties` files needs be made accessible to the role, normally by copying it into the `files` folder in the playbook directory. The `AEM_*_Quickstart.jar` can be supplied in the same way or retrieved from a Maven/RPM/APT repository, an HTTP URL or a S3 bucket (see below).
 
 ## Role Variables
 
@@ -36,24 +36,24 @@ The version of AEM to install, filename of the Quickstart.jar and optional SHA1 
 	aem_cms_download_path: /tmp
 	aem_cms_remove_download: false
 
-The installation source, i.e. where the installation Quickstart.jar should be retrieved from. This can either be `file` for a local file, `package` for a distribution package , `url` for a generic URL, `s3` for an object from a S3 bucket or `Nexus` for a Maven repository. If using a local file it needs to be copied someplace the Ansible `copy` module can find it. `aem_cms_download_path` controls where the installation file will be downloaded to on the target host, and `aem_cms_remove_download` whether the file will be deleted after installation.
+The installation source, i.e. where the installation Quickstart.jar should be retrieved from. This can either be `file` for a local file, `package` for a distribution package , `url` for a generic URL, `s3` for an object from a S3 bucket or `maven_repository` for a Maven repository. If using a local file it needs to be copied someplace the Ansible `copy` module can find it. `aem_cms_download_path` controls where the installation file will be downloaded to on the target host, and `aem_cms_remove_download` whether the file will be deleted after installation.
 	
 	aem_cms_package: aem{{ aem_cms_version_short }}
 	aem_cms_package_home: "/path/of/package/installation"
 
 If using a distribution package, `aem_cms_package` must be set to the name of the package to install and `aem_cms_package_home` to the directory the package will install the AEM `Quickstart.jar` into. The role will use this to move the installation to `aem_cms_home`.
 
-	aem_cms_nexus_coordinates:
+	aem_cms_maven_repository_coordinates:
 	  - {
 		  group_id: group.id,
 		  artifact_id: artifact.id,
 		  version: "{{ aem_cms_version }}",
 		  repository_url: 'https://repo.url'
 		}
-		aem_cms_nexus_username: <username>
-		aem_cms_nexus_password: <password>
+		aem_cms_maven_repository_username: <username>
+		aem_cms_maven_repository_password: <password>
 
-Used to configure the Maven coordinates of the JAR artifact and Nexus credentials when using Nexus as installation source.
+Used to configure the Maven coordinates of the JAR artifact and repository credentials when using Maven repository as installation source.
 
 	aem_cms_url: "http://host:port/path/{{ aem_cms_quickstart_name }}"
 	aem_cms_url_username: <username>

@@ -16,7 +16,7 @@ aem_cms_quickstart_name: "AEM_{{ aem_cms_version_short }}_Quickstart.jar"
 # SHA1 hash of the Quickstart.jar
 # aem_cms_quickstart_sha1: 663360C9D50A09A0BE685053DEA10D03515C2009
 
-# Installation source: file, package, url, s3 or nexus
+# Installation source: file, package, url, s3 or maven_repository
 aem_cms_install_source: file
 aem_cms_download_path: /tmp
 aem_cms_remove_download: false
@@ -36,16 +36,16 @@ aem_cms_remove_download: false
 # aem_cms_s3_access_key:
 # aem_cms_s3_secret_key:
 
-# Maven coordinates and Nexus credentials for installation from Nexus
-# aem_cms_nexus_coordinates:
+# Maven coordinates and repository credentials for installation from Maven repository
+# aem_cms_maven_repository_coordinates:
 #   - {
 #   group_id: group.id,
 #   artifact_id: artifact.id,
 #   version: "{{ aem_cms_version }}",
 #   repository_url: 'https://repo.url'
 #   }
-# aem_cms_nexus_username:
-# aem_cms_nexus_password:
+# aem_cms_maven_repository_username:
+# aem_cms_maven_repository_password:
 
 # Fileglob(s) of files to copy to the crx-quickstart/install directory during setup
 # aem_cms_quickstart_install_fileglob: install/*

@@ -4,14 +4,14 @@
     name: python-lxml
     state: present
 
-- name: Download AEM quickstart artifact from Nexus.
+- name: Download AEM quickstart artifact from Maven repository.
   maven_artifact:
     group_id: "{{ item.group_id }}"
     artifact_id: "{{ item.artifact_id }}"
     repository_url: "{{ item.repository_url }}"
     dest: "{{ aem_cms_download_path }}/{{ aem_cms_quickstart_name }}"
     extension: jar
-    username: "{{ aem_cms_nexus_username | default(omit) }}"
-    password: "{{ aem_cms_nexus_password | default(omit) }}"
+    username: "{{ aem_cms_maven_repository_username | default(omit) }}"
+    password: "{{ aem_cms_maven_repository_password | default(omit) }}"
     version: "{{ item.version | default(aem_cms_version_short) }}"
-  with_items: "{{ aem_cms_nexus_coordinates }}"
+  with_items: "{{ aem_cms_maven_repository_coordinates }}"
