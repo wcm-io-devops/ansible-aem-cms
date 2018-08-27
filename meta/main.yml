@@ -30,6 +30,7 @@ galaxy_info:
 dependencies:
 - {
     role: srsp.oracle-java,
+    version: 2.19.1,
     java_remove_download: false,
     tags: "dev.java",
     when: aem_cms_dependency_java == true
