@@ -20,7 +20,7 @@
         aem_cms_version not in aem_cms_in_place_upgrade_paths[aem_cms_in_place_upgrade_existing_version]
 
 # ensure instance is stopped before renaming the jars
-- name: "in_place_upgrade : stopping existing instance for upgrade"
+- name: "in_place_upgrade : stopping existing instance for upgrade."
   service:
     name: "{{ aem_cms_service_name }}"
     state: stopped
@@ -35,7 +35,7 @@
     remote_src: True
   with_items: "{{ aem_cms_existing_quickstarts.files | map(attribute='path') | list }}"
 
-- name: "in_place_upgrade : Delete old quickstart file(s)."
+- name: "in_place_upgrade : delete old quickstart file(s)."
   file:
     path: "{{ item }}"
     owner: "{{ aem_cms_user }}"
