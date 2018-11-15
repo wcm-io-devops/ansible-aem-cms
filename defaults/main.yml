@@ -55,3 +55,14 @@ aem_cms_limit_nofile: 20000
 
 # controls if the java dependency is enabled/disabled
 aem_cms_dependency_java: true
+
+# Enables / disables in-place-upgrade
+aem_cms_in_place_upgrade: false
+
+# Specifies from and to versions which are supported for an in-place-upgrade
+aem_cms_in_place_upgrade_paths:
+  "6.3.0":
+    - "6.4.0"
+# "from_version":
+#    - "to_version" # list of versions that an upgrade is allowed for
+

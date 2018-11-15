@@ -1,0 +1,44 @@
+# get version numbers from all jar files found
+- name: "in_place_upgrade : detect version to upgrade from."
+  set_fact:
+     aem_cms_in_place_upgrade_existing_version: "{{ aem_cms_existing_quickstarts.files | map(attribute='path') | map('regex_replace', '^.*cq-quickstart-(.+)-standalone-quickstart.jar$', '\\1') | list | sort | reverse | list | first}}"
+
+# safe gate which only allows upgrades when allowed
+- name: "in_place_upgrade : fail when upgrade is not allowed."
+  fail:
+    msg:
+      - "In place upgrade is not allowed, 'aem_cms_in_place_upgrade' is set to '{{ aem_cms_in_place_upgrade }}'"
+      - "existing version: '{{ aem_cms_in_place_upgrade_existing_version }}'"
+      - "version to deploy: '{{ aem_cms_version }}'"
+  when: aem_cms_in_place_upgrade != true
+
+# check if upgrading is allowed based on existing and new version
+- name: "in_place_upgrade : fail when upgrade path from '{{ aem_cms_in_place_upgrade_existing_version }}' to '{{ aem_cms_version }}' is not allowed."
+  fail:
+    msg: "Upgrade from {{ aem_cms_in_place_upgrade_existing_version }} to {{ aem_cms_version }} is not allowed."
+  when: aem_cms_in_place_upgrade_paths[aem_cms_in_place_upgrade_existing_version] is not defined or
+        aem_cms_version not in aem_cms_in_place_upgrade_paths[aem_cms_in_place_upgrade_existing_version]
+
+# ensure instance is stopped before renaming the jars
+- name: "in_place_upgrade : stopping existing instance for upgrade"
+  service:
+    name: "{{ aem_cms_service_name }}"
+    state: stopped
+
+# rename old quickstart jars to *.jar.bak because default start script will use first jar found in the app folder
+- name: "in_place_upgrade : create a backup of existing quickstart(s)."
+  copy:
+    src: "{{ item }}"
+    dest: "{{ item }}.bak"
+    owner: "{{ aem_cms_user }}"
+    group: "{{ aem_cms_group }}"
+    remote_src: True
+  with_items: "{{ aem_cms_existing_quickstarts.files | map(attribute='path') | list }}"
+
+- name: "in_place_upgrade : Delete old quickstart file(s)."
+  file:
+    path: "{{ item }}"
+    owner: "{{ aem_cms_user }}"
+    group: "{{ aem_cms_group }}"
+    state: absent
+  with_items: "{{ aem_cms_existing_quickstarts.files | map(attribute='path') | list }}"
