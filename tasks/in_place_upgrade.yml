@@ -33,10 +33,6 @@
   when: aem_cms_in_place_upgrade_paths[aem_cms_in_place_upgrade_existing_version] is not defined or
         aem_cms_version not in aem_cms_in_place_upgrade_paths[aem_cms_in_place_upgrade_existing_version]
 
-- name: "Fail: do not continue"
-  fail:
-    msg: do not continue
-
 # ensure instance is stopped before renaming the jars
 - name: "in_place_upgrade : stopping existing instance for upgrade."
   service:
