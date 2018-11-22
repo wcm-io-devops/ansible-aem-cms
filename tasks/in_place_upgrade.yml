@@ -36,16 +36,6 @@
 
 # rename old quickstart jars to *.jar.bak because default start script will use first jar found in the app folder
 - name: "in_place_upgrade : create a backup of existing quickstart(s)."
-  copy:
-    src: "{{ item }}"
-    dest: "{{ item }}.bak"
-    owner: "{{ aem_cms_user }}"
-    group: "{{ aem_cms_group }}"
-    remote_src: True
-  with_items: "{{ aem_cms_in_place_upgrade_existing_quickstarts }}"
-
-- name: "in_place_upgrade : delete old quickstart file(s)."
-  file:
-    path: "{{ item }}"
-    state: absent
+  command: "mv {{ item }} {{ item }}.bak"
+  changed_when: true
   with_items: "{{ aem_cms_in_place_upgrade_existing_quickstarts }}"
