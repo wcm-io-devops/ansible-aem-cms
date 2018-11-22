@@ -1,7 +1,12 @@
+- name: "in_place_upgrade : set fact for existing quickstarts."
+  set_fact:
+    aem_cms_in_place_upgrade_existing_quickstarts:  "{{ aem_cms_existing_quickstarts.files | map(attribute='path') | list }}"
+
 # get version numbers from all jar files found
 - name: "in_place_upgrade : detect version to upgrade from."
   set_fact:
-     aem_cms_in_place_upgrade_existing_version: "{{ aem_cms_existing_quickstarts.files | map(attribute='path') | map('regex_replace', '^.*cq-quickstart-(.+)-standalone-quickstart.jar$', '\\1') | list | sort | reverse | list | first}}"
+
+     aem_cms_in_place_upgrade_existing_version: "{{ aem_cms_in_place_upgrade_existing_quickstarts | map('regex_replace', '^.*cq-quickstart-(.+)-standalone-quickstart.jar$', '\\1') | list | sort | reverse | list | first}}"
 
 # safe gate which only allows upgrades when allowed
 - name: "in_place_upgrade : fail when upgrade is not allowed."
@@ -46,7 +51,7 @@
     owner: "{{ aem_cms_user }}"
     group: "{{ aem_cms_group }}"
     remote_src: True
-  with_items: "{{ aem_cms_existing_quickstarts.files | map(attribute='path') | list }}"
+  with_items: "{{ aem_cms_in_place_upgrade_existing_quickstarts }}"
 
 - name: "in_place_upgrade : delete old quickstart file(s)."
   file:
@@ -54,4 +59,4 @@
     owner: "{{ aem_cms_user }}"
     group: "{{ aem_cms_group }}"
     state: absent
-  with_items: "{{ aem_cms_existing_quickstarts.files | map(attribute='path') | list }}"
+  with_items: "{{ aem_cms_in_place_upgrade_existing_quickstarts }}"
