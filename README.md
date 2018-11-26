@@ -83,6 +83,30 @@ Sets the `nofile` limit for the AEM user.
 
 Controls if Java is installed by using [srsp.oracle-java](https://galaxy.ansible.com/srsp/oracle-java/) role for installing Java.
 
+    aem_cms_in_place_upgrade: false
+
+Enables / disables in-place-upgrade.
+
+:exclamation: Warnings
+* Use the in place upgrade functionality with care and test it in a
+  staging environment before applying it to production!
+* Do not use this mechanism when a content repository migration is
+  necessary!
+* Do not use this mechanism when upgrading from AEM 6.2 to AEM 6.3+
+
+```
+aem_cms_in_place_upgrade_paths:
+  "6.3.0":
+    - "6.4.0"
+```
+
+Format:
+
+    "from_version":
+        - "to_version" # list of versions that an upgrade is allowed for
+
+Specifies from and to versions which are supported by the
+in-place-upgrade mechanism.
 
 ## Dependencies
 

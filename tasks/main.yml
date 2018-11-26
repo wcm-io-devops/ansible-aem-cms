@@ -36,6 +36,22 @@
         (aem_cms_quickstart_sha1 is defined and
         (aem_cms_quickstart_sha1 | lower) != aem_cms_quickstart_file.stat.checksum)
 
+- name: "Check for existing AEM installation with versions different than {{ aem_cms_version }}."
+  find:
+    paths: "{{ aem_cms_home }}/crx-quickstart/app/"
+    patterns:
+      - "cq-quickstart-*-standalone-quickstart.jar"
+  register: aem_cms_existing_quickstarts
+
+- name: "Set fact with existing quickstart paths."
+  set_fact:
+    aem_cms_in_place_upgrade_existing_quickstarts:  "{{ aem_cms_existing_quickstarts.files | map(attribute='path') | list }}"
+
+- name: Include tasks for in-place-upgrade when necessary.
+  include_tasks: in_place_upgrade.yml
+  # only perform in place upgrade when no jar containing aem_cms_version is present
+  when: aem_cms_in_place_upgrade_existing_quickstarts | map('basename') | list | select('search', aem_cms_version) | list | length == 0
+
 - name: Unpack AEM.
   shell: "su {{ aem_cms_user }} -l -c 'java -jar {{ aem_cms_download_path }}/{{ aem_cms_quickstart_name }} -unpack -b {{ aem_cms_home }}'"
   args:
