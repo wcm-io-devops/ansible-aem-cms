@@ -14,5 +14,6 @@
     username: "{{ aem_cms_maven_repository_username | default(omit) }}"
     password: "{{ aem_cms_maven_repository_password | default(omit) }}"
     version: "{{ item.version | default(aem_cms_version_short) }}"
-    mode: "o+r"
+    owner: "{{ aem_cms_user }}"
+    group: "{{ aem_cms_group }}"
   with_items: "{{ aem_cms_maven_repository_coordinates }}"

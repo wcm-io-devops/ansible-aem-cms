@@ -37,10 +37,12 @@
         (aem_cms_quickstart_sha1 | lower) != aem_cms_quickstart_file.stat.checksum)
 
 - name: Unpack AEM.
-  shell: "su {{ aem_cms_user }} -l -c 'java -jar {{ aem_cms_download_path }}/{{ aem_cms_quickstart_name }} -unpack -b {{ aem_cms_home }}'"
+  shell: "java -jar {{ aem_cms_download_path }}/{{ aem_cms_quickstart_name }} -unpack -b {{ aem_cms_home }}"
   args:
     creates: "{{ aem_cms_home }}/crx-quickstart/app/cq-quickstart-{{ aem_cms_version }}-standalone-quickstart.jar"
     warn: false
+  become: yes
+  become_user: "{{ aem_cms_user }}"
   tags:
     - skip_ansible_lint
 
