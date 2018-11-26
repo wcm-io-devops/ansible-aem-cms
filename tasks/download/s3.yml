@@ -20,3 +20,9 @@
     mode: get
     aws_access_key: "{{ aem_cms_s3_access_key | default(omit) }}"
     aws_secret_key: "{{ aem_cms_s3_secret_key | default(omit) }}"
+
+- name: Set user and group for downloaded AEM artifact.
+  file:
+    path: "{{ aem_cms_download_path }}/{{ aem_cms_quickstart_name }}"
+    owner: "{{ aem_cms_user }}"
+    group: "{{ aem_cms_group }}"
