@@ -11,3 +11,4 @@
     url_username: "{{ aem_cms_url_username | default(omit) }}"
     url_password: "{{ aem_cms_url_password | default(omit) }}"
     checksum: "{{ _aem_cms_quickstart_checksum | default(omit) }}"
+    mode: "o+r"

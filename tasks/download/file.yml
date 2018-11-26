@@ -3,3 +3,4 @@
   copy:
     src: "{{ aem_cms_quickstart_name }}"
     dest: "{{ aem_cms_download_path }}"
+    mode: "o+r"
