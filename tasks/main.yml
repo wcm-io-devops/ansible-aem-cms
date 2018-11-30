@@ -31,7 +31,7 @@
   register: aem_cms_quickstart_file
 
 - name: Download AEM quickstart.
-  include: "download/{{ aem_cms_install_source }}.yml"
+  include_tasks: "download/{{ aem_cms_install_source }}.yml"
   when: not aem_cms_quickstart_file.stat.exists or
         (aem_cms_quickstart_sha1 is defined and
         (aem_cms_quickstart_sha1 | lower) != aem_cms_quickstart_file.stat.checksum)
@@ -73,17 +73,17 @@
   when: aem_cms_remove_download
 
 - name: Setup AEM systemd unit.
-  include: systemd.yml
+  include_tasks: systemd.yml
   when: ansible_service_mgr == 'systemd'
 
 - name: Setup AEM init script.
-  include: sysvinit.yml
+  include_tasks: sysvinit.yml
   when: ansible_service_mgr == 'sysvinit' or ansible_service_mgr == 'upstart' or ansible_service_mgr == 'service'
 
 - name: Setup crx-quickstart/install.
-  include: quickstart_install.yml
+  include_tasks: quickstart_install.yml
   when: aem_cms_quickstart_install_fileglob is defined
 
 - name: Setup i386 support for XMPFilesProcessor.
-  include: xmp_i386.yml
+  include_tasks: xmp_i386.yml
   when: ansible_architecture == 'x86_64'
