@@ -55,7 +55,11 @@
      - aem_cms_in_place_upgrade_existing_quickstarts | length > 0
 
 - name: Unpack AEM.
-  shell: "su {{ aem_cms_user }} -l -c 'java -jar {{ aem_cms_download_path }}/{{ aem_cms_quickstart_name }} -unpack -b {{ aem_cms_home }}'"
+  shell: >-
+    su {{ aem_cms_user }} -l -c
+    'java -jar {{ aem_cms_download_path }}/{{ aem_cms_quickstart_name }}
+    -unpack
+    -b {{ aem_cms_home }}'
   args:
     creates: "{{ aem_cms_home }}/crx-quickstart/app/cq-quickstart-{{ aem_cms_version }}-standalone-quickstart.jar"
     warn: false

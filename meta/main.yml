@@ -33,5 +33,5 @@ dependencies:
     version: 2.19.1,
     java_remove_download: false,
     tags: "dev.java",
-    when: aem_cms_dependency_java == true
+    when: aem_cms_dependency_java
   }

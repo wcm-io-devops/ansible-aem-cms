@@ -65,4 +65,3 @@ aem_cms_in_place_upgrade_paths:
     - "6.4.0"
 # "from_version":
 #    - "to_version" # list of versions that an upgrade is allowed for
-

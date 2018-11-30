@@ -1,7 +1,7 @@
 # get the latest version of all the existing jar files
 - name: "in_place_upgrade : detect version to upgrade from."
   set_fact:
-     aem_cms_in_place_upgrade_existing_version: "{{ aem_cms_in_place_upgrade_existing_quickstarts | map('regex_replace', '^.*cq-quickstart-(.+)-standalone-quickstart.jar$', '\\1') | list | sort | reverse | list | first}}"
+     aem_cms_in_place_upgrade_existing_version: "{{ aem_cms_in_place_upgrade_existing_quickstarts | map('regex_replace', '^.*cq-quickstart-(.+)-standalone-quickstart.jar$', '\\1') | list | sort | reverse | list | first }}"
 
 # safe gate which only allows upgrades when allowed
 - name: "in_place_upgrade : fail when upgrade is not allowed."
