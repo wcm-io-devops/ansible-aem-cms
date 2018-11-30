@@ -17,21 +17,18 @@
 
   - name: Install i386 XMPFilesProcessor dependencies
     apt:
-      name: "{{ item }}"
+      name:
+        - "libc6:i386"
+        - "uuid-runtime:i386"
       state: present
       update_cache: true
       cache_valid_time: 3600
-    with_items:
-      - "libc6:i386"
-      - "uuid-runtime:i386"
-
   when: ansible_os_family == "Debian"
 
 - name: Install i386 XMPFilesProcessor dependencies
   yum:
-    name: "{{ item }}"
+    name:
+      - "compat-libstdc++-33.i686"
+      - "libuuid.i686"
     state: present
-  with_items:
-    - "compat-libstdc++-33.i686"
-    - "libuuid.i686"
   when: ansible_os_family == "RedHat"
