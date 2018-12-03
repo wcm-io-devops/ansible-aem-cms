@@ -45,14 +45,16 @@
 
 - name: "Set fact with existing quickstart paths."
   set_fact:
-    aem_cms_in_place_upgrade_existing_quickstarts:  "{{ aem_cms_existing_quickstarts.files | map(attribute='path') | list }}"
+    aem_cms_in_place_upgrade_existing_quickstarts:
+      "{{ aem_cms_existing_quickstarts.files | map(attribute='path') | list }}"
 
 - name: Include tasks for in-place-upgrade when necessary.
   include_tasks: in_place_upgrade.yml
   # only perform in place upgrade when no jar containing aem_cms_version is present
   when:
-     - aem_cms_in_place_upgrade_existing_quickstarts | map('basename') | list | select('search', aem_cms_version) | list | length == 0
-     - aem_cms_in_place_upgrade_existing_quickstarts | length > 0
+    - aem_cms_in_place_upgrade_existing_quickstarts | map('basename') | list
+      | select('search', aem_cms_version) | list | length == 0
+    - aem_cms_in_place_upgrade_existing_quickstarts | length > 0
 
 - name: Unpack AEM.
   shell: >-
