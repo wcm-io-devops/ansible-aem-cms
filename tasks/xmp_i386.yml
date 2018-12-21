@@ -14,7 +14,7 @@
     apt:
       update_cache: True
     register: _update_cache_result
-    until: _update_cache_result | success
+    until: _update_cache_result is success
     retries: 3
     when: i386_arch.changed
 
@@ -27,7 +27,7 @@
       update_cache: true
       cache_valid_time: 3600
     register: _debian_xmp_result
-    until: _debian_xmp_result | success
+    until: _debian_xmp_result is success
     retries: 3
   when: ansible_os_family == "Debian"
 
@@ -38,6 +38,6 @@
       - "libuuid.i686"
     state: present
   register: _redhat_xmp_result
-  until: _redhat_xmp_result | success
+  until: _redhat_xmp_result is success
   retries: 3
   when: ansible_os_family == "RedHat"
