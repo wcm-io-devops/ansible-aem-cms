@@ -6,9 +6,6 @@
 - name: Install pip.
   easy_install:
     name: pip
-    state: latest
-  tags:
-    - skip_ansible_lint
 
 - name: Install boto3 dependency.
   pip:
