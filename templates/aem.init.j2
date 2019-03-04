@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/bash
 ### BEGIN INIT INFO
 # Provides:          {{ aem_cms_service_name }}
 # Required-Start:    $local_fs $remote_fs $network $syslog $named
@@ -10,56 +10,85 @@
 ### END INIT INFO
 
 # Source function library.
-#. /etc/rc.d/init.d/functions
 . /lib/lsb/init-functions
 
 SCRIPT_NAME=`basename $0`
 AEM_ROOT={{ aem_cms_home }}
 AEM_USER={{ aem_cms_user }}
+PID_PATH={{ aem_cms_home }}/crx-quickstart/conf/cq.pid
+STOP_TIMEOUT_SECONDS={{ aem_cms_stop_timeout_seconds }}
 
 
 ########
 BIN=${AEM_ROOT}/crx-quickstart/bin
 START=${BIN}/start
-STOP="${BIN}/stop --sync"
+STOP=${BIN}/stop
 STATUS="${BIN}/status"
 
 aem_start() {
-  if $0 status > /dev/null ; then
+  pidResult=$(pgrep --pidfile $PID_PATH || true);
+  if [[ $pidResult != "" ]];
+  then
     log_success_msg "$SCRIPT_NAME already started"
   else
-    log_daemon_msg "Starting $DESC" "$SCRIPT_NAME"
+    log_daemon_msg "Starting $SCRIPT_NAME"
     su - ${AEM_USER} ${START} > /dev/null
     log_end_msg 0
   fi
 }
 
 aem_stop() {
-  if $0 status > /dev/null ; then
-    log_daemon_msg "Stopping $DESC" "$SCRIPT_NAME"
+  # check if instance is running
+  pidResult=$(pgrep --pidfile $PID_PATH || true);
+  if [[ $pidResult != "" ]];
+  then
+    # AEM is running
+    log_daemon_msg "Stopping $SCRIPT_NAME"
     su - ${AEM_USER} -c "bash ${STOP}" > /dev/null
+    while [ "$STOP_TIMEOUT_SECONDS" != "0" ]; do
+      sleep 1s
+      pidResult=$(pgrep --pidfile $PID_PATH || true);
+      if [[ $pidResult == "" ]];
+      then
+        break;
+      fi
+
+      log_progress_msg "."
+      let STOP_TIMEOUT_SECONDS-=1;
+
+    done
+    # check if AEM process has to be terminated
+    pidResult=$(pgrep --pidfile $PID_PATH || true);
+    if [[ $pidResult != "" ]];
+    then
+      log_daemon_msg "Killed $SCRIPT_NAME because shutdown timeout was reached"
+      kill -9 $(cat $PID_PATH);
+    fi
     log_end_msg 0
   else
-    log_success_msg "$SCRIPT_NAME not started"
+    # AEM is not running
+    log_success_msg "$SCRIPT_NAME already stopped"
+    log_end_msg 7
   fi
+
 }
 
 case "$1" in
-start)
-aem_start
-;;
-stop)
-aem_stop
-;;
-status)
-su - ${AEM_USER} ${STATUS}
-;;
-restart)
-aem_stop
-aem_start
-;;
-*)
-echo "Usage: $SCRIPT_NAME {start|stop|status|restart}"
-exit 1
-;;
+  start)
+    aem_start
+  ;;
+  stop)
+    aem_stop
+   ;;
+  status)
+    su - ${AEM_USER} ${STATUS}
+  ;;
+  restart)
+    aem_stop
+    aem_start
+  ;;
+  *)
+    echo "Usage: $SCRIPT_NAME {start|stop|status|restart}"
+  exit 1
+  ;;
 esac
