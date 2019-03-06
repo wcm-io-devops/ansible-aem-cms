@@ -15,13 +15,10 @@ User={{ aem_cms_user }}
 Group={{ aem_cms_group }}
 
 ExecStart={{ aem_cms_home }}/crx-quickstart/bin/start
-ExecStop={{ aem_cms_home }}/crx-quickstart/bin/stop
+ExecStop={{ aem_cms_stop_sync_path }}
 
-# Do not kill the process, wait for graceful shutdown until
-# timeout is reached.
-KillSignal=SIGCONT
-# Timeout until kill is send
-TimeoutStopSec={{ aem_cms_stop_timeout_seconds }}s
+# Do not kill the process because sync stop script is taking care of this
+KillMode=none
 
 [Install]
 WantedBy=multi-user.target

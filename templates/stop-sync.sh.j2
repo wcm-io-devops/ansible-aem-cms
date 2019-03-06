@@ -1,0 +1,46 @@
+#!/bin/bash
+# Source function library.
+. /lib/lsb/init-functions
+
+SCRIPT_NAME=`basename $0`
+AEM_ROOT={{ aem_cms_home }}
+AEM_SERVICE_NAME={{ aem_cms_service_name }}
+PID_PATH={{ aem_cms_home }}/crx-quickstart/conf/cq.pid
+STOP_TIMEOUT_SECONDS={{ aem_cms_stop_timeout_seconds }}
+
+########
+BIN=${AEM_ROOT}/crx-quickstart/bin
+STOP=${BIN}/stop
+
+# check if instance is running
+pidResult=$(pgrep --pidfile $PID_PATH || true);
+if [[ $pidResult != "" ]];
+then
+  # AEM is running
+  log_daemon_msg "Stopping $AEM_SERVICE_NAME"
+  bash ${STOP} > /dev/null
+  while [ "$STOP_TIMEOUT_SECONDS" != "0" ]; do
+    sleep 1s
+    pidResult=$(pgrep --pidfile $PID_PATH || true);
+    if [[ $pidResult == "" ]];
+    then
+      break;
+    fi
+
+    log_progress_msg "."
+    let STOP_TIMEOUT_SECONDS-=1;
+
+  done
+  # check if AEM process has to be terminated
+  pidResult=$(pgrep --pidfile $PID_PATH || true);
+  if [[ $pidResult != "" ]];
+  then
+    log_daemon_msg "Killed $AEM_SERVICE_NAME because shutdown timeout was reached"
+    kill -9 $(cat $PID_PATH);
+  fi
+  log_end_msg 0
+else
+  # AEM is not running
+  log_success_msg "$AEM_SERVICE_NAME already stopped"
+  log_end_msg 7
+fi
