@@ -20,5 +20,8 @@ ExecStop={{ aem_cms_stop_sync_path }}
 # Do not kill the process because sync stop script is taking care of this
 KillMode=none
 
+# Wait at least one second before restart
+RestartSec=1
+
 [Install]
 WantedBy=multi-user.target
