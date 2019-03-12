@@ -67,7 +67,7 @@ aem_cms_in_place_upgrade_paths:
 #    - "to_version" # list of versions that an upgrade is allowed for
 
 # Seconds to wait for instance to be stopped until process is killed
-aem_cms_stop_timeout_seconds: 180
+aem_cms_stop_timeout_seconds: 1200
 
 # Path to the systemd unit template
 aem_cms_systemd_unit_template: "aem.service.j2"
