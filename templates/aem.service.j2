@@ -15,6 +15,9 @@ User={{ aem_cms_user }}
 Group={{ aem_cms_group }}
 
 ExecStart={{ aem_cms_home }}/crx-quickstart/bin/start
+# sleep some time after start to ensure pid file is present for systemd
+ExecStartPost=/bin/sleep 5s
+
 ExecStop={{ aem_cms_stop_sync_path }}
 
 # Do not kill the process because sync stop script is taking care of this

@@ -1,11 +1,3 @@
-- name: Create stop-sync shell file.
-  template:
-    src: "{{ aem_cms_stop_sync_template }}"
-    dest: "{{ aem_cms_stop_sync_path }}"
-    owner: "{{ aem_cms_user }}"
-    group: "{{ aem_cms_group }}"
-    mode: "0744"
-
 - name: Create AEM systemd unit file.
   template:
     src: "{{ aem_cms_systemd_unit_template }}"

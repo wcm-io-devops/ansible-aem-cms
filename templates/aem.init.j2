@@ -22,7 +22,7 @@ STOP_TIMEOUT_SECONDS={{ aem_cms_stop_timeout_seconds }}
 ########
 BIN=${AEM_ROOT}/crx-quickstart/bin
 START=${BIN}/start
-STOP=${BIN}/stop
+STOP=${BIN}/stop-sync.sh
 STATUS="${BIN}/status"
 
 aem_start() {
@@ -38,39 +38,8 @@ aem_start() {
 }
 
 aem_stop() {
-  # check if instance is running
-  pidResult=$(pgrep --pidfile $PID_PATH || true);
-  if [[ $pidResult != "" ]];
-  then
-    # AEM is running
-    log_daemon_msg "Stopping $SCRIPT_NAME"
-    su - ${AEM_USER} -c "bash ${STOP}" > /dev/null
-    while [ "$STOP_TIMEOUT_SECONDS" != "0" ]; do
-      sleep 1s
-      pidResult=$(pgrep --pidfile $PID_PATH || true);
-      if [[ $pidResult == "" ]];
-      then
-        break;
-      fi
-
-      log_progress_msg "."
-      let STOP_TIMEOUT_SECONDS-=1;
-
-    done
-    # check if AEM process has to be terminated
-    pidResult=$(pgrep --pidfile $PID_PATH || true);
-    if [[ $pidResult != "" ]];
-    then
-      log_daemon_msg "Killed $SCRIPT_NAME because shutdown timeout was reached"
-      kill -9 $(cat $PID_PATH);
-    fi
-    log_end_msg 0
-  else
-    # AEM is not running
-    log_success_msg "$SCRIPT_NAME already stopped"
-    log_end_msg 7
-  fi
-
+  # execute sync stop script
+  su - ${AEM_USER} -c "bash ${STOP}"
 }
 
 case "$1" in
