@@ -108,6 +108,29 @@ Format:
 Specifies from and to versions which are supported by the
 in-place-upgrade mechanism.
 
+    aem_cms_stop_timeout_seconds: 1200
+
+Seconds to wait for instance to be stopped until process is killed.
+
+    aem_cms_systemd_unit_template: "aem.service.j2"
+
+Path to the systemd unit template. Use this variable to specify a custom
+template.
+
+    aem_cms_sysvinit_service_template: "aem.init.j2"
+
+Path to the sysvinit service template. Path to the systemd unit
+template. Use this variable to specify a custom template.
+
+    aem_cms_stop_sync_template: "stop-sync.sh.j2"
+
+Path to the synchronous stop script template. Use this variable to
+specify a custom template.
+
+    aem_cms_stop_sync_path: "{{ aem_cms_home }}/crx-quickstart/bin/stop-sync.sh"
+
+Destination path of the synchronous stop script on the instance.
+
 ## Dependencies
 
 This role depends on the
