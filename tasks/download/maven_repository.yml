@@ -1,8 +1,16 @@
 ---
+# install python3 variant of lxml for >3.5, which is the lowest python3 version supported by ansible
+- name: Install python3-lxml dependency for Ansible maven_artifact module.
+  package:
+    name: python3-lxml
+    state: present
+  when: ansible_python_version is version('3.5', operator='>=')
+
 - name: Install lxml dependency for Ansible maven_artifact module.
   package:
     name: python-lxml
     state: present
+  when: ansible_python_version is version('3.0', operator='<')
 
 - name: Download AEM quickstart artifact from Maven repository.
   maven_artifact:
