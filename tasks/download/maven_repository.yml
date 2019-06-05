@@ -4,13 +4,13 @@
   package:
     name: python3-lxml
     state: present
-  when: ansible_python_version is version('3.5', operator='>=')
+  when: ansible_python_version is version_compare('3.5', operator='>=')
 
 - name: Install lxml dependency for Ansible maven_artifact module.
   package:
     name: python-lxml
     state: present
-  when: ansible_python_version is version('3.0', operator='<')
+  when: ansible_python_version is version_compare('3.0', operator='<')
 
 - name: Download AEM quickstart artifact from Maven repository.
   maven_artifact:
