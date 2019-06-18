@@ -12,7 +12,7 @@
     name: boto3
 
 - name: Download AEM artifact from S3.
-  s3:
+  aws_s3:
     bucket: "{{ aem_cms_s3_bucket }}"
     object: "{{ aem_cms_s3_object }}"
     dest: "{{ aem_cms_download_path }}/{{ aem_cms_quickstart_name }}"
