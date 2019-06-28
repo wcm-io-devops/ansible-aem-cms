@@ -74,6 +74,14 @@
     state: absent
   when: aem_cms_remove_download
 
+- name: Create stop-sync shell file.
+  template:
+    src: "{{ aem_cms_stop_sync_template }}"
+    dest: "{{ aem_cms_stop_sync_path }}"
+    owner: "{{ aem_cms_user }}"
+    group: "{{ aem_cms_group }}"
+    mode: "0744"
+
 - name: Setup AEM systemd unit.
   include_tasks: systemd.yml
   when: ansible_service_mgr == 'systemd'

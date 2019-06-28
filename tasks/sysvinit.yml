@@ -1,6 +1,6 @@
 - name: Create AEM initd service file.
   template:
-    src: aem.init.j2
+    src: "{{ aem_cms_sysvinit_service_template }}"
     dest: "/etc/init.d/{{ aem_cms_service_name }}"
     mode: "0755"
 

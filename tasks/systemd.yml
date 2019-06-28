@@ -1,6 +1,6 @@
 - name: Create AEM systemd unit file.
   template:
-    src: aem.service.j2
+    src: "{{ aem_cms_systemd_unit_template }}"
     dest: "/etc/systemd/system/{{ aem_cms_service_name }}.service"
     mode: "0644"
 

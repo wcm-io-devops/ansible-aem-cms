@@ -7,11 +7,28 @@ Requires=network.target
 
 [Service]
 Type=forking
-ExecStart={{ aem_cms_home }}/crx-quickstart/bin/start
-ExecStop={{ aem_cms_home }}/crx-quickstart/bin/stop --sync
 PIDFile={{ aem_cms_home }}/crx-quickstart/conf/cq.pid
-User={{ aem_cms_user }}
+
 LimitNOFILE={{ aem_cms_limit_nofile }}
+
+User={{ aem_cms_user }}
+Group={{ aem_cms_group }}
+
+# Do not kill the process because sync stop script is taking care of this
+KillMode=none
+
+ExecStart={{ aem_cms_home }}/crx-quickstart/bin/start
+
+# sleep some time after start to ensure pid file is present for systemd
+ExecStartPost=/bin/sleep 5s
+ExecStop=-{{ aem_cms_stop_sync_path }}
+
+# Configure the time to wait for ExecStop command
+{# Add 30 seconds to aem_cms_stop_timeout_seconds to avoid timeouts when process is killed #}
+TimeoutStopSec={{ aem_cms_stop_timeout_seconds | int + 30}}s
+
+# Wait at least one second before restart
+RestartSec=1
 
 [Install]
 WantedBy=multi-user.target
