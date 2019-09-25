@@ -23,7 +23,7 @@
       name:
         - "libc6:i386"
         - "uuid-runtime:i386"
-      state: build-dep
+      state: lastest
       update_cache: true
       cache_valid_time: 3600
     register: _debian_xmp_result
@@ -36,7 +36,7 @@
     name:
       - "compat-libstdc++-33.i686"
       - "libuuid.i686"
-    state: build-dep
+    state: present
   register: _redhat_xmp_result
   until: _redhat_xmp_result is success
   retries: 3
