@@ -23,7 +23,7 @@
       name:
         - "libc6:i386"
         - "uuid-runtime:i386"
-      state: fixed
+      state: present
       update_cache: true
       cache_valid_time: 3600
     register: _debian_xmp_result
