@@ -1,7 +1,7 @@
 ---
 - name: Install setuptools package.
   package:
-    name: python-setuptools
+    name: "{{ 'python3-setuptools' if ansible_pkg_mgr == 'dnf' else 'python-setuptools' }}"
 
 - name: Install pip.
   easy_install:
