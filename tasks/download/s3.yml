@@ -5,6 +5,7 @@
 
 - name: Install pip.
   easy_install:
+    executable: "{{ 'easy_install-3' if ansible_pkg_mgr == 'dnf' else 'easy_install' }}"
     name: pip
 
 - name: Install boto3 dependency.
