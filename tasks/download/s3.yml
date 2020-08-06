@@ -1,10 +1,20 @@
 ---
 - name: Install setuptools package.
   package:
-    name: python-setuptools
+    name: "{{ 'python3-setuptools' if ansible_pkg_mgr == 'dnf' else 'python-setuptools' }}"
+
+- name: Set symlink for python3.6 directory on CentOS 8 hosts to make easy_install-3 work.
+  file:
+    src: /usr/lib64/python3.6
+    dest: /usr/local/lib/python3.6
+    state: link
+    modification_time: preserve
+    access_time: preserve
+  when: ansible_pkg_mgr == 'dnf'
 
 - name: Install pip.
   easy_install:
+    executable: "{{ 'easy_install-3' if ansible_pkg_mgr == 'dnf' else 'easy_install' }}"
     name: pip
 
 - name: Install boto3 dependency.
