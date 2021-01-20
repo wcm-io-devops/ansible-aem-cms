@@ -8,7 +8,7 @@ This role installs Adobe Experience Manager (AEM) 6.x on Debian/Ubuntu or RHEL/C
 
 ## Requirements
 
-This role requires Ansible 2.7 or higher and works with AEM 6.1 or higher. Also required are an AEM quickstart JAR file and a valid AEM license file. The `license.properties` files needs be made accessible to the role, normally by copying it into the `files` folder in the playbook directory. The `AEM_*_Quickstart.jar` can be supplied in the same way or retrieved from a Maven/RPM/APT repository, an HTTP URL or a S3 bucket (see below).
+This role requires Ansible 2.7 or higher and works with AEM 6.1 or higher. Also required are an AEM quickstart JAR file and a valid AEM license file. The `license.properties` files needs be made accessible to the role, normally by copying it into the `files` folder in the playbook directory. You can also use another license file and reference it by the `aem_cms_license_file` variable. The `AEM_*_Quickstart.jar` can be supplied in the same way or retrieved from a Maven/RPM/APT repository, an HTTP URL or a S3 bucket (see below).
 
 ## Role Variables
 
@@ -130,6 +130,10 @@ specify a custom template.
     aem_cms_stop_sync_path: "{{ aem_cms_home }}/crx-quickstart/bin/stop-sync.sh"
 
 Destination path of the synchronous stop script on the instance.
+
+    aem_cms_license_file: license.properties
+
+Name of the AEM license file.
 
 ## Dependencies
 
