@@ -20,7 +20,7 @@
 
 - name: Create AEM license.
   copy:
-    src: license.properties
+    src: "{{ aem_cms_license_file }}"
     dest: "{{ aem_cms_home }}/license.properties"
     owner: "{{ aem_cms_user }}"
     group: "{{ aem_cms_group }}"

@@ -82,3 +82,6 @@ aem_cms_stop_sync_template: "stop-sync.sh.j2"
 
 # Destination path of the synchronous stop script on the instance
 aem_cms_stop_sync_path: "{{ aem_cms_home }}/crx-quickstart/bin/stop-sync.sh"
+
+# File name of the AEM license file
+aem_cms_license_file: license.properties
