@@ -1,3 +1,4 @@
+---
 # The native XMP tools are i386 by default so we need to enable i386 support
 # and install their dependencies with the proper bitness
 
@@ -7,12 +8,13 @@
     lineinfile:
       dest: /var/lib/dpkg/arch
       line: "i386"
-      create: True
+      create: yes
+      mode: 0644
     register: i386_arch
 
   - name: Update apt cache when architecture added.
     apt:
-      update_cache: True
+      update_cache: yes
     register: _update_cache_result
     until: _update_cache_result is success
     retries: 3
@@ -24,7 +26,7 @@
         - "libc6:i386"
         - "uuid-runtime:i386"
       state: present
-      update_cache: true
+      update_cache: yes
       cache_valid_time: 3600
     register: _debian_xmp_result
     until: _debian_xmp_result is success

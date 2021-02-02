@@ -1,3 +1,4 @@
+---
 - name: Install AEM package.
   package:
     name: "{{ aem_cms_package }}"
@@ -7,9 +8,10 @@
   copy:
     src: "{{ aem_cms_package_home }}/{{ aem_cms_quickstart_name }}"
     dest: "{{ aem_cms_download_path }}"
-    remote_src: True
+    remote_src: yes
     owner: "{{ aem_cms_user }}"
     group: "{{ aem_cms_group }}"
+    mode: 0640
 
 - name: Remove AEM package.
   package:

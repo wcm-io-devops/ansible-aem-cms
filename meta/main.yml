@@ -1,3 +1,4 @@
+---
 galaxy_info:
   role_name: aem_cms
   author: Martin Wehner
@@ -8,18 +9,18 @@ galaxy_info:
   min_ansible_version: 2.7
 
   platforms:
-  - name: Ubuntu
-    versions:
-    - trusty
-    - xenial
-  - name: Debian
-    versions:
-    - jessie
-    - stretch
-  - name: EL
-    versions:
-    - 7
-    - 8
+    - name: Ubuntu
+      versions:
+        - trusty
+        - xenial
+    - name: Debian
+      versions:
+        - jessie
+        - stretch
+    - name: EL
+      versions:
+        - 7
+        - 8
 
   galaxy_tags:
     - aem
@@ -29,9 +30,8 @@ galaxy_info:
     - wcmio
 
 dependencies:
-- {
-    role: srsp.oracle-java,
-    java_remove_download: false,
-    tags: "dev.java",
+  - role: srsp.oracle-java
+    java_remove_download: false
+    tags:
+      - "dev.java"
     when: aem_cms_dependency_java
-  }
