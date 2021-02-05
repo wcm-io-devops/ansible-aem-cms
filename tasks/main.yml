@@ -1,3 +1,4 @@
+---
 - name: Create AEM group.
   group:
     name: "{{ aem_cms_group }}"
@@ -17,6 +18,7 @@
     state: directory
     owner: "{{ aem_cms_user }}"
     group: "{{ aem_cms_group }}"
+    mode: 0750
 
 - name: Create AEM license.
   copy:
@@ -24,6 +26,7 @@
     dest: "{{ aem_cms_home }}/license.properties"
     owner: "{{ aem_cms_user }}"
     group: "{{ aem_cms_group }}"
+    mode: 0640
 
 - name: Check whether AEM quickstart was already downloaded.
   stat:

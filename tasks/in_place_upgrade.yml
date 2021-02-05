@@ -1,3 +1,4 @@
+---
 # get the latest version of all the existing jar files
 - name: "in_place_upgrade : detect version to upgrade from."
   set_fact:
@@ -19,9 +20,9 @@
 - name: "in_place_upgrade : fail on downgrade."
   fail:
     msg:
-    - "Downgrading is not allowed/supported!"
-    - "existing version: '{{ aem_cms_in_place_upgrade_existing_version }}'"
-    - "version to deploy: '{{ aem_cms_version }}'"
+      - "Downgrading is not allowed/supported!"
+      - "existing version: '{{ aem_cms_in_place_upgrade_existing_version }}'"
+      - "version to deploy: '{{ aem_cms_version }}'"
   when: aem_cms_version is version_compare(aem_cms_in_place_upgrade_existing_version, '<')
 
 # check if upgrading is allowed based on existing and new version
