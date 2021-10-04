@@ -32,8 +32,7 @@ galaxy_info:
     - wcmio
 
 dependencies:
-  - role: srsp.oracle-java
-    java_remove_download: false
+  - role: geerlingguy.java
     tags:
       - "dev.java"
     when: aem_cms_dependency_java
