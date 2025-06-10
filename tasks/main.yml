@@ -67,7 +67,6 @@
     -b {{ aem_cms_home }}'
   args:
     creates: "{{ aem_cms_home }}/crx-quickstart/app/cq-quickstart-{{ aem_cms_version }}-standalone-quickstart.jar"
-    warn: false
   tags:
     - skip_ansible_lint
 
