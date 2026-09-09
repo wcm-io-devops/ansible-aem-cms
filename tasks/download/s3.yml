@@ -1,7 +1,7 @@
 ---
 - name: Install setuptools package.
   ansible.builtin.package:
-    name: "{{ 'python3-setuptools' if ansible_pkg_mgr == 'dnf' else 'python-setuptools' }}"
+    name: "{{ 'python3-setuptools' if ansible_python_version is version('3.0', '>=') else 'python-setuptools' }}"
 
 - name: Set symlink for python3.6 directory on CentOS 8 hosts to make easy_install-3 work.
   ansible.builtin.file:
