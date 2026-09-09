@@ -5,13 +5,22 @@
 - name: Configure i386 support on Debian.
   when: ansible_os_family == "Debian"
   block:
+    - name: Check configured foreign architectures.
+      ansible.builtin.command:
+        argv:
+          - dpkg
+          - --print-foreign-architectures
+      register: _foreign_architectures
+      changed_when: false
+
     - name: Enable i386 architecture.
-      ansible.builtin.lineinfile:
-        dest: /var/lib/dpkg/arch
-        line: "i386"
-        create: true
-        mode: "0644"
+      ansible.builtin.command:
+        argv:
+          - dpkg
+          - --add-architecture
+          - i386
       register: i386_arch
+      when: "'i386' not in _foreign_architectures.stdout_lines"
 
     - name: Update apt cache when architecture added. # noqa no-handler
       ansible.builtin.apt:
