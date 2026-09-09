@@ -8,7 +8,7 @@ Requires=network.target
 [Service]
 Type=forking
 PIDFile={{ aem_cms_home }}/crx-quickstart/conf/cq.pid
-{{ ((aem_cms_systemd_service_configuration | default([], true)) | join('\n')) + '\n' if (aem_cms_systemd_service_configuration | default([], true)) else '' }}
+{{ aem_cms_systemd_service_configuration | default([], true) | join('\n') }}
 LimitNOFILE={{ aem_cms_limit_nofile }}
 
 User={{ aem_cms_user }}
