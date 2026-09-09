@@ -13,4 +13,4 @@
     checksum: "{{ _aem_cms_quickstart_checksum | default(omit) }}"
     owner: "{{ aem_cms_user }}"
     group: "{{ aem_cms_group }}"
-    mode: "0644"
+    mode: "0640"
