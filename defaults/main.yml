@@ -72,6 +72,9 @@ aem_cms_stop_timeout_seconds: 1200
 # Path to the systemd unit template
 aem_cms_systemd_unit_template: "aem.service.j2"
 
+# Additional directives for the systemd Service section
+aem_cms_systemd_service_configuration: []
+
 # Path to the sysvinit service template
 aem_cms_sysvinit_service_template: "aem.init.j2"
 

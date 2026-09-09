@@ -29,6 +29,6 @@ TimeoutStopSec={{ aem_cms_stop_timeout_seconds | int + 30}}s
 
 # Wait at least one second before restart
 RestartSec=1
-
+{{ aem_cms_systemd_service_configuration | default([], true) | join('\n') }}
 [Install]
 WantedBy=multi-user.target
