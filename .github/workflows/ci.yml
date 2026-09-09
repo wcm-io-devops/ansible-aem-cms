@@ -72,7 +72,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.ansible/collections
-          key: ${{ runner.os }}-ansible-collections-${{ hashFiles('**/requirements.yml') }}
+          key: ${{ runner.os }}-ansible-collections-${{ matrix.NAME }}-${{ hashFiles('**/requirements.yml') }}
 
       - name: Install Ansible collections.
         run: |
