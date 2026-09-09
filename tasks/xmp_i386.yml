@@ -20,6 +20,7 @@
           - --add-architecture
           - i386
       register: i386_arch
+      changed_when: true
       when: "'i386' not in _foreign_architectures.stdout_lines"
 
     - name: Update apt cache when architecture added. # noqa no-handler
