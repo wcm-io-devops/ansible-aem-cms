@@ -8,6 +8,9 @@ Requires=network.target
 [Service]
 Type=forking
 PIDFile={{ aem_cms_home }}/crx-quickstart/conf/cq.pid
+{% for directive in aem_cms_systemd_service_configuration %}
+{{ directive }}
+{% endfor %}
 
 LimitNOFILE={{ aem_cms_limit_nofile }}
 

@@ -114,6 +114,16 @@ Seconds to wait for instance to be stopped until process is killed.
 Path to the systemd unit template. Use this variable to specify a custom
 template.
 
+	aem_cms_systemd_service_configuration: []
+
+Additional directives to add to the systemd `[Service]` section. Each list
+item must contain one complete systemd directive. For example, to make a
+custom Java installation available when systemd starts AEM:
+
+	aem_cms_systemd_service_configuration:
+	  - 'Environment="JAVA_HOME=/opt/java"'
+	  - 'Environment="PATH=/opt/java/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"'
+
     aem_cms_sysvinit_service_template: "aem.init.j2"
 
 Path to the sysvinit service template. Path to the systemd unit
