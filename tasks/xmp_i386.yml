@@ -2,39 +2,49 @@
 # The native XMP tools are i386 by default so we need to enable i386 support
 # and install their dependencies with the proper bitness
 
-- block:
-
-  - name: Enable i386 architecture.
-    lineinfile:
-      dest: /var/lib/dpkg/arch
-      line: "i386"
-      create: yes
-      mode: 0644
-    register: i386_arch
-
-  - name: Update apt cache when architecture added.
-    apt:
-      update_cache: yes
-    register: _update_cache_result
-    until: _update_cache_result is success
-    retries: 3
-    when: i386_arch.changed
-
-  - name: Install i386 XMPFilesProcessor dependencies
-    apt:
-      name:
-        - "libc6:i386"
-        - "uuid-runtime:i386"
-      state: present
-      update_cache: yes
-      cache_valid_time: 3600
-    register: _debian_xmp_result
-    until: _debian_xmp_result is success
-    retries: 3
+- name: Configure i386 support on Debian.
   when: ansible_os_family == "Debian"
+  block:
+    - name: Check configured foreign architectures.
+      ansible.builtin.command:
+        argv:
+          - dpkg
+          - --print-foreign-architectures
+      register: _foreign_architectures
+      changed_when: false
 
-- name: Install i386 XMPFilesProcessor dependencies
-  yum:
+    - name: Enable i386 architecture.
+      ansible.builtin.command:
+        argv:
+          - dpkg
+          - --add-architecture
+          - i386
+      register: i386_arch
+      changed_when: true
+      when: "'i386' not in _foreign_architectures.stdout_lines"
+
+    - name: Update apt cache when architecture added. # noqa no-handler
+      ansible.builtin.apt:
+        update_cache: true
+      register: _update_cache_result
+      until: _update_cache_result is success
+      retries: 3
+      when: i386_arch.changed
+
+    - name: Install i386 XMPFilesProcessor dependencies.
+      ansible.builtin.apt:
+        name:
+          - "libc6:i386"
+          - "uuid-runtime:i386"
+        state: present
+        update_cache: true
+        cache_valid_time: 3600
+      register: _debian_xmp_result
+      until: _debian_xmp_result is success
+      retries: 3
+
+- name: Install i386 XMPFilesProcessor dependencies.
+  ansible.builtin.dnf:
     name:
       - "{{ 'compat-libstdc++-33.i686' if ansible_distribution_major_version == '7' else 'libstdc++' }}"
       - "libuuid.i686"

@@ -1,58 +1,57 @@
 ---
 - name: Create AEM group.
-  group:
+  ansible.builtin.group:
     name: "{{ aem_cms_group }}"
     state: present
 
 - name: Create AEM user.
-  user:
+  ansible.builtin.user:
     name: "{{ aem_cms_user }}"
     group: "{{ aem_cms_group }}"
-    append: yes
-    system: yes
+    system: true
     state: present
 
 - name: Create AEM folder.
-  file:
+  ansible.builtin.file:
     path: "{{ aem_cms_home }}"
     state: directory
     owner: "{{ aem_cms_user }}"
     group: "{{ aem_cms_group }}"
-    mode: 0750
+    mode: "0750"
 
 - name: Create AEM license.
-  copy:
+  ansible.builtin.copy:
     src: "{{ aem_cms_license_file }}"
     dest: "{{ aem_cms_home }}/license.properties"
     owner: "{{ aem_cms_user }}"
     group: "{{ aem_cms_group }}"
-    mode: 0640
+    mode: "0640"
 
 - name: Check whether AEM quickstart was already downloaded.
-  stat:
+  ansible.builtin.stat:
     path: "{{ aem_cms_download_path }}/{{ aem_cms_quickstart_name }}"
   register: aem_cms_quickstart_file
 
 - name: Download AEM quickstart.
-  include_tasks: "download/{{ aem_cms_install_source }}.yml"
+  ansible.builtin.include_tasks: "download/{{ aem_cms_install_source }}.yml"
   when: not aem_cms_quickstart_file.stat.exists or
         (aem_cms_quickstart_sha1 is defined and
         (aem_cms_quickstart_sha1 | lower) != aem_cms_quickstart_file.stat.checksum)
 
 - name: "Check for existing AEM installation with versions different than {{ aem_cms_version }}."
-  find:
+  ansible.builtin.find:
     paths: "{{ aem_cms_home }}/crx-quickstart/app/"
     patterns:
       - "cq-quickstart-*-standalone-quickstart.jar"
   register: aem_cms_existing_quickstarts
 
 - name: "Set fact with existing quickstart paths."
-  set_fact:
+  ansible.builtin.set_fact:
     aem_cms_in_place_upgrade_existing_quickstarts:
       "{{ aem_cms_existing_quickstarts.files | map(attribute='path') | list }}"
 
 - name: Include tasks for in-place-upgrade when necessary.
-  include_tasks: in_place_upgrade.yml
+  ansible.builtin.include_tasks: in_place_upgrade.yml
   # only perform in place upgrade when no jar containing aem_cms_version is present
   when:
     - aem_cms_in_place_upgrade_existing_quickstarts | map('basename') | list
@@ -60,7 +59,7 @@
     - aem_cms_in_place_upgrade_existing_quickstarts | length > 0
 
 - name: Unpack AEM.
-  shell: >-
+  ansible.builtin.shell: >-
     su {{ aem_cms_user }} -l -c
     'java -jar {{ aem_cms_download_path }}/{{ aem_cms_quickstart_name }}
     -unpack
@@ -71,13 +70,13 @@
     - skip_ansible_lint
 
 - name: Remove downloaded AEM quickstart.
-  file:
+  ansible.builtin.file:
     path: "{{ aem_cms_download_path }}/{{ aem_cms_quickstart_name }}"
     state: absent
   when: aem_cms_remove_download
 
 - name: Create stop-sync shell file.
-  template:
+  ansible.builtin.template:
     src: "{{ aem_cms_stop_sync_template }}"
     dest: "{{ aem_cms_stop_sync_path }}"
     owner: "{{ aem_cms_user }}"
@@ -85,17 +84,17 @@
     mode: "0744"
 
 - name: Setup AEM systemd unit.
-  include_tasks: systemd.yml
+  ansible.builtin.include_tasks: systemd.yml
   when: ansible_service_mgr == 'systemd'
 
 - name: Setup AEM init script.
-  include_tasks: sysvinit.yml
+  ansible.builtin.include_tasks: sysvinit.yml
   when: ansible_service_mgr == 'sysvinit' or ansible_service_mgr == 'upstart' or ansible_service_mgr == 'service'
 
 - name: Setup crx-quickstart/install.
-  include_tasks: quickstart_install.yml
+  ansible.builtin.include_tasks: quickstart_install.yml
   when: aem_cms_quickstart_install_fileglob is defined
 
 - name: Setup i386 support for XMPFilesProcessor.
-  include_tasks: xmp_i386.yml
+  ansible.builtin.include_tasks: xmp_i386.yml
   when: ansible_architecture == 'x86_64'

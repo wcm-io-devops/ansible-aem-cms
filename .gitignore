@@ -29,3 +29,4 @@ npm-debug.log
 *nbactions*.xml
 .temp/
 ansible.cfg
+.ansible

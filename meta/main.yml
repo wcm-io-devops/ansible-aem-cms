@@ -7,7 +7,7 @@ galaxy_info:
   company: pro!vision
   issue_tracker_url: https://wcm-io.atlassian.net
   license: Apache
-  min_ansible_version: 2.7
+  min_ansible_version: "2.10"
 
   platforms:
     - name: Ubuntu
@@ -19,10 +19,11 @@ galaxy_info:
         - jessie
         - stretch
         - buster
+        - bullseye
+        - bookworm
     - name: EL
       versions:
-        - 7
-        - 8
+        - "8"
 
   galaxy_tags:
     - aem
@@ -30,10 +31,3 @@ galaxy_info:
     - web
     - java
     - wcmio
-
-dependencies:
-  - role: srsp.oracle-java
-    java_remove_download: false
-    tags:
-      - "dev.java"
-    when: aem_cms_dependency_java

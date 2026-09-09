@@ -1,28 +1,28 @@
 ---
 - name: Create AEM initd service file.
-  template:
+  ansible.builtin.template:
     src: "{{ aem_cms_sysvinit_service_template }}"
     dest: "/etc/init.d/{{ aem_cms_service_name }}"
     mode: "0755"
 
 - name: Enable AEM service.
-  service:
+  ansible.builtin.service:
     name: "{{ aem_cms_service_name }}"
-    enabled: yes
+    enabled: true
 
-- block:
+- name: Configure AEM nofile limits.
+  when: aem_cms_limit_nofile
+  block:
 
     - name: Set nofile ulimit for AEM user.
-      template:
+      ansible.builtin.template:
         src: limits.conf.j2
         dest: "/etc/security/limits.d/{{ aem_cms_user }}.conf"
-        mode: 0644
+        mode: "0644"
 
     - name: Enable pam_limits module for su.
-      lineinfile:
+      ansible.builtin.lineinfile:
         dest: "/etc/pam.d/su"
         line: "session required pam_limits.so"
         regexp: "#?\\s*session\\s+required\\s+pam_limits.so"
-        mode: 0644
-
-  when: aem_cms_limit_nofile
+        mode: "0644"

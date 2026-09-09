@@ -54,9 +54,6 @@ aem_cms_remove_download: false
 # nofile limit (defaults to Adobe recommendation)
 aem_cms_limit_nofile: 20000
 
-# controls if the java dependency is enabled/disabled
-aem_cms_dependency_java: true
-
 # Enables / disables in-place-upgrade
 aem_cms_in_place_upgrade: false
 

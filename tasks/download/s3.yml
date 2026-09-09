@@ -1,10 +1,10 @@
 ---
 - name: Install setuptools package.
-  package:
-    name: "{{ 'python3-setuptools' if ansible_pkg_mgr == 'dnf' else 'python-setuptools' }}"
+  ansible.builtin.package:
+    name: "{{ 'python3-setuptools' if ansible_python_version is version('3.0', '>=') else 'python-setuptools' }}"
 
 - name: Set symlink for python3.6 directory on CentOS 8 hosts to make easy_install-3 work.
-  file:
+  ansible.builtin.file:
     src: /usr/lib64/python3.6
     dest: /usr/local/lib/python3.6
     state: link
@@ -13,16 +13,16 @@
   when: ansible_pkg_mgr == 'dnf'
 
 - name: Install pip.
-  easy_install:
+  community.general.easy_install:
     executable: "{{ 'easy_install-3' if ansible_pkg_mgr == 'dnf' else 'easy_install' }}"
     name: pip
 
 - name: Install boto3 dependency.
-  pip:
+  ansible.builtin.pip:
     name: boto3
 
 - name: Download AEM artifact from S3.
-  aws_s3:
+  amazon.aws.s3_object:
     bucket: "{{ aem_cms_s3_bucket }}"
     object: "{{ aem_cms_s3_object }}"
     dest: "{{ aem_cms_download_path }}/{{ aem_cms_quickstart_name }}"
@@ -31,7 +31,7 @@
     aws_secret_key: "{{ aem_cms_s3_secret_key | default(omit) }}"
 
 - name: Set user and group for downloaded AEM artifact.
-  file:
+  ansible.builtin.file:
     path: "{{ aem_cms_download_path }}/{{ aem_cms_quickstart_name }}"
     owner: "{{ aem_cms_user }}"
     group: "{{ aem_cms_group }}"

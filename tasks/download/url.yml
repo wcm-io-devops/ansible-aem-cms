@@ -1,11 +1,11 @@
 ---
 - name: Build AEM quickstart SHA1 checksum string.
-  set_fact:
+  ansible.builtin.set_fact:
     _aem_cms_quickstart_checksum: "sha1:{{ aem_cms_quickstart_sha1 }}"
   when: aem_cms_quickstart_sha1 is defined
 
 - name: Download AEM quickstart from URL.
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ aem_cms_url }}"
     dest: "{{ aem_cms_download_path }}/{{ aem_cms_quickstart_name }}"
     url_username: "{{ aem_cms_url_username | default(omit) }}"
@@ -13,3 +13,4 @@
     checksum: "{{ _aem_cms_quickstart_checksum | default(omit) }}"
     owner: "{{ aem_cms_user }}"
     group: "{{ aem_cms_group }}"
+    mode: "0640"
