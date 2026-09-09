@@ -8,7 +8,7 @@ Requires=network.target
 [Service]
 Type=forking
 PIDFile={{ aem_cms_home }}/crx-quickstart/conf/cq.pid
-{{ aem_cms_systemd_service_configuration | default([], true) | join('\n') }}
+
 LimitNOFILE={{ aem_cms_limit_nofile }}
 
 User={{ aem_cms_user }}
@@ -29,6 +29,6 @@ TimeoutStopSec={{ aem_cms_stop_timeout_seconds | int + 30}}s
 
 # Wait at least one second before restart
 RestartSec=1
-
+{{ aem_cms_systemd_service_configuration | default([], true) | join('\n') }}
 [Install]
 WantedBy=multi-user.target
