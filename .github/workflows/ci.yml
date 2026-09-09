@@ -89,7 +89,7 @@ jobs:
       - name: Lint code.
         run: |
           yamllint .
-          ansible-lint
+          ansible-lint --offline
 
       - name: Test syntax.
         run: |
