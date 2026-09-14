@@ -26,6 +26,7 @@
     owner: "{{ aem_cms_user }}"
     group: "{{ aem_cms_group }}"
     mode: "0640"
+  when: aem_cms_license_file
 
 - name: Check whether AEM quickstart was already downloaded.
   ansible.builtin.stat:
@@ -65,7 +66,8 @@
     -unpack
     -b {{ aem_cms_home }}'
   args:
-    creates: "{{ aem_cms_home }}/crx-quickstart/app/cq-quickstart-{{ aem_cms_version }}-standalone-quickstart.jar"
+    # glob to also match the "cloudready" quickstart jar naming variant
+    creates: "{{ aem_cms_home }}/crx-quickstart/app/cq-quickstart-*{{ aem_cms_version }}-standalone-quickstart.jar"
   tags:
     - skip_ansible_lint
 
