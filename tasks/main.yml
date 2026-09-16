@@ -71,6 +71,16 @@
   tags:
     - skip_ansible_lint
 
+- name: Copy original Quickstart.jar to aem_cms_home (sibling of crx-quickstart).
+  ansible.builtin.copy:
+    src: "{{ aem_cms_download_path }}/{{ aem_cms_quickstart_name }}"
+    dest: "{{ aem_cms_home }}/{{ aem_cms_quickstart_name }}"
+    remote_src: true
+    owner: "{{ aem_cms_user }}"
+    group: "{{ aem_cms_group }}"
+    mode: "0640"
+  when: aem_cms_quickstart_keep_in_home
+
 - name: Remove downloaded AEM quickstart.
   ansible.builtin.file:
     path: "{{ aem_cms_download_path }}/{{ aem_cms_quickstart_name }}"
