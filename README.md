@@ -40,6 +40,10 @@ The version of AEM to install, filename of the Quickstart.jar and optional SHA1 
 	aem_cms_remove_download: false
 
 The installation source, i.e. where the installation Quickstart.jar should be retrieved from. This can either be `file` for a local file, `package` for a distribution package , `url` for a generic URL, `s3` for an object from a S3 bucket or `maven_repository` for a Maven repository. If using a local file it needs to be copied someplace the Ansible `copy` module can find it. `aem_cms_download_path` controls where the installation file will be downloaded to on the target host, and `aem_cms_remove_download` whether the file will be deleted after installation.
+
+	aem_cms_quickstart_keep_in_home: false
+
+Whether to keep a copy of the original (pre-unpack) Quickstart.jar in `aem_cms_home`, as a sibling of the `crx-quickstart` folder. This is required by Adobe's documented in-place-upgrade procedure ([Determining the correct upgrade start command](https://experienceleague.adobe.com/en/docs/experience-manager-65-lts/content/implementing/deploying/upgrading/in-place-upgrade)), which must be booted from this original jar rather than the repackaged `crx-quickstart/app/cq-quickstart-*.jar` produced by `-unpack`.
 	
 	aem_cms_package: aem{{ aem_cms_version_short }}
 	aem_cms_package_home: "/path/of/package/installation"

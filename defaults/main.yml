@@ -22,6 +22,12 @@ aem_cms_install_source: file
 aem_cms_download_path: /tmp
 aem_cms_remove_download: false
 
+# Keep a copy of the original (pre-unpack) Quickstart.jar in aem_cms_home,
+# as a sibling of crx-quickstart. Required by Adobe's documented in-place-
+# upgrade procedure, which must be booted from this original jar rather
+# than the repackaged crx-quickstart/app/cq-quickstart-*.jar created by -unpack.
+aem_cms_quickstart_keep_in_home: false
+
 # Package name and installation location for installation from distribution package
 # aem_cms_package: aem{{ aem_cms_version_short }}
 # aem_cms_package_home: "/path/of/package/installation"
